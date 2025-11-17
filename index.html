@@ -5,24 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RoomEase</title>
     
-    <!-- Google Fonts -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome Icons -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Stylesheet -->
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Main App Container -->
+    
     <div class="app-container">
         
-        <!-- HOME PAGE -->
+        
         <section id="home-page" class="page active">
-            <!-- Header Hero -->
+            
             <header class="page-header hero">
                 <img src="icons/logo.png" alt="RoomEase Logo" class="app-logo logo-light">
                 <img src="icons/darklogo.png" alt="RoomEase Logo" class="app-logo logo-dark">
@@ -39,11 +39,11 @@
                 </div>
             </header>
 
-            <!-- Desktop 2-Column Layout Wrapper -->
+            
             <div class="home-grid">
-                <!-- Left Column -->
+                
                 <div class="home-left">
-                    <!-- Today at a Glance -->
+                    
                     <div class="glance-widget card">
                         <h3 class="section-title">Today's To-Do</h3>
                         <div class="glance-content">
@@ -57,7 +57,7 @@
                         </div>
                     </div>
 
-                    <!-- Fairness Overview Card -->
+                    
                     <div class="fairness-card card">
                         <h3 class="section-title">Fairness Overview</h3>
                         <div class="fairness-display">
@@ -75,7 +75,7 @@
                         </div>
                     </div>
 
-                    <!-- Mini Calendar Strip -->
+                    
                     <div class="calendar-strip card">
                         <div class="calendar-month-header">
                             November 2025
@@ -90,42 +90,42 @@
                             <div class="calendar-weekday">Sat</div>
                         </div>
                         <div class="calendar-days" id="calendar-days-container">
-                            <!-- Will be populated by JavaScript -->
+                            
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column -->
+                
                 <div class="home-right">
-                    <!-- Activity Feed -->
+                    
                     <div class="activity-feed">
                         <h3 class="section-title">Activity Feed</h3>
                         <div id="feed-container">
-                            <!-- Populated by JavaScript -->
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TASKS PAGE -->
+        
         <section id="tasks-page" class="page">
             <header class="page-header">
                 <h1>Tasks</h1>
                 <p class="subtitle">Assign, Repeat, and Check-off together!</p>
             </header>
 
-            <!-- Add Task Button -->
+            
             <button class="btn-large primary" id="main-add-task-btn" style="margin-bottom: var(--spacing-lg);">
                 <i class="fas fa-plus"></i>
                 Add Task
             </button>
 
-            <!-- Desktop 2-Column Layout -->
+            
             <div class="tasks-grid">
-                <!-- Left: Filters -->
+                
                 <div class="tasks-sidebar">
-                    <!-- Filter Tabs -->
+                    
                     <div class="filter-tabs">
                         <button class="filter-tab active" data-filter="my">My Tasks</button>
                         <button class="filter-tab" data-filter="all">All Tasks</button>
@@ -133,24 +133,24 @@
                     </div>
                 </div>
 
-                <!-- Right: Task List -->
+                
                 <div class="tasks-main">
-                    <!-- Task List -->
+                    
                     <div class="task-list" id="task-list-container">
-                        <!-- Populated by JavaScript -->
+                        
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- EXPENSES PAGE -->
+        
         <section id="expenses-page" class="page">
             <header class="page-header">
                 <h1>Expenses</h1>
                 <p class="subtitle">Split fairly, Track clearly!</p>
             </header>
 
-            <!-- Balance Summary -->
+            
             <div class="balance-summary">
                 <div class="balance-card owe">
                     <div class="balance-icon">
@@ -172,19 +172,19 @@
                 </div>
             </div>
 
-            <!-- Add Expense Button -->
+            
             <button class="btn-large primary" id="add-expense-btn">
                 <i class="fas fa-plus"></i>
                 Add Expense
             </button>
 
-            <!-- Expense List -->
+            
             <div class="expense-list" id="expense-list-container">
-                <!-- Populated by JavaScript -->
+                
             </div>
         </section>
 
-        <!-- CHATS PAGE -->
+        
         <section id="chats-page" class="page">
             <header class="page-header">
                 <h1>Chats</h1>
@@ -195,20 +195,20 @@
                 </div>
             </header>
 
-            <!-- New Chat Button -->
+            
             <button class="btn-large primary" id="new-chat-btn" style="margin-bottom: var(--spacing-lg);">
                 <i class="fas fa-plus"></i>
                 New Chat / Group
             </button>
 
-            <!-- Desktop Split Layout -->
+            
             <div class="chats-split-layout">
-                <!-- Conversation List -->
+                
                 <div class="conversation-list" id="conversation-list-container">
-                    <!-- Populated by JavaScript -->
+                    
                 </div>
 
-                <!-- Chat Preview (Desktop Only) -->
+                
                 <div class="chat-preview-desktop" id="chat-preview-desktop">
                     <div class="chat-empty-state">
                         <i class="fas fa-comments"></i>
@@ -223,7 +223,7 @@
                             </button>
                         </div>
                         <div class="messages-container" id="messages-container-desktop">
-                            <!-- Populated by JavaScript -->
+                            
                         </div>
                         <div class="message-input-area">
                             <input type="text" id="message-input-desktop" placeholder="Type a message...">
@@ -235,7 +235,7 @@
                 </div>
             </div>
 
-            <!-- Chat View (Mobile Overlay) -->
+            
             <div class="chat-view" id="chat-view" style="display: none;">
                 <div class="chat-header">
                     <button class="icon-btn" id="back-to-chats">
@@ -247,7 +247,7 @@
                     </button>
                 </div>
                 <div class="messages-container" id="messages-container">
-                    <!-- Populated by JavaScript -->
+                    
                 </div>
                 <div class="message-input-area">
                     <input type="text" id="message-input-mobile" placeholder="Type a message...">
@@ -258,11 +258,11 @@
             </div>
         </section>
 
-        <!-- PROFILE PAGE -->
+        
         <section id="profile-page" class="page">
-            <!-- Desktop 2-Column Layout -->
+            
             <div class="profile-grid">
-                <!-- Left Column: Avatar & Basic Info -->
+                
                 <div class="profile-left">
                     <header class="page-header profile-header">
                         <div class="profile-avatar-large">
@@ -273,9 +273,9 @@
                     </header>
                 </div>
 
-                <!-- Right Column: Stats & Details -->
+                
                 <div class="profile-right">
-                    <!-- Stats -->
+                    
                     <div class="stats-section">
                         <h3 class="section-title">Your Stats</h3>
                         <div class="stats-grid">
@@ -303,7 +303,7 @@
                         </div>
                     </div>
 
-                    <!-- Preferences -->
+                    
                     <div class="preferences-section">
                         <h3 class="section-title">Preferences</h3>
                         <div class="preference-item">
@@ -348,7 +348,7 @@
                         </div>
                     </div>
 
-                    <!-- House Info -->
+                    
                     <div class="house-info-section">
                         <h3 class="section-title">Your Roommates</h3>
                         <div class="roommate-list">
@@ -388,7 +388,7 @@
             </div>
         </section>
 
-        <!-- Bottom Navigation -->
+        
         <nav class="bottom-nav">
             <button class="nav-btn active" data-page="home">
                 <img src="icons/home.svg" alt="Home" class="custom-icon nav">
@@ -414,7 +414,7 @@
 
     </div>
 
-    <!-- Modal for Quick Actions -->
+    
     <div class="modal" id="action-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -448,7 +448,7 @@
         </div>
     </div>
 
-    <!-- Modal for Task Management -->
+    
     <div class="modal" id="task-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -520,7 +520,7 @@
         </div>
     </div>
 
-    <!-- Modal for Expense Management -->
+    
     <div class="modal" id="expense-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -593,7 +593,7 @@
         </div>
     </div>
 
-    <!-- Modal for New Chat/Group Creation -->
+    
     <div class="modal" id="new-chat-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -603,7 +603,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Choice View -->
+                
                 <div id="new-chat-choice">
                     <button class="btn-large primary" id="start-direct-chat-btn">
                         <i class="fas fa-user"></i>
@@ -615,16 +615,16 @@
                     </button>
                 </div>
 
-                <!-- Direct Chat View -->
+                
                 <div id="new-chat-direct" style="display: none;">
                     <h4 style="margin-bottom: var(--spacing-md); color: var(--text-heading);">Select a roommate</h4>
                     <div id="roommates-list-direct" class="roommates-selection">
-                        <!-- Populated by JavaScript -->
+                        
                     </div>
                     <p class="modal-note">Select a roommate to start chatting</p>
                 </div>
 
-                <!-- Group Chat View -->
+                
                 <div id="new-chat-group" style="display: none;">
                     <form id="group-chat-form">
                         <div class="form-group">
@@ -634,7 +634,7 @@
                         <div class="form-group">
                             <label>Add Roommates</label>
                             <div id="roommates-list-group" class="checkbox-group">
-                                <!-- Populated by JavaScript - each item will be a .modal-assignee-item -->
+                                
                             </div>
                         </div>
                         <button type="submit" class="btn-large primary">Create Group</button>
@@ -644,13 +644,13 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    
     <div class="toast" id="toast">
         <i class="fas fa-info-circle"></i>
         <span id="toast-message">Action completed</span>
     </div>
 
-    <!-- JavaScript -->
+    
     <script src="script.js"></script>
 </body>
 </html>

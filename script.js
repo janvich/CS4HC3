@@ -1,14 +1,14 @@
-// ===================================
-// ROOMMATE TASK ORGANIZER - SCRIPT
-// Interactive Functionality & Data
-// ===================================
 
-// ============ THEME MANAGEMENT ============
+
+
+
+
+
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-    // Apply saved theme or system preference
+    
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         document.body.classList.add('dark-mode');
         const themeToggle = document.getElementById('theme-toggle');
@@ -16,9 +16,9 @@ function initializeTheme() {
     }
 }
 
-// ============ CONFETTI ANIMATION ============
+
 function triggerConfetti() {
-    const duration = 2000; // 2 seconds
+    const duration = 2000; 
     const particleCount = 50;
     const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#43e97b', '#38f9d7', '#FFD700', '#FF6B6B', '#4ECDC4'];
     
@@ -33,14 +33,14 @@ function triggerConfetti() {
     container.style.overflow = 'hidden';
     document.body.appendChild(container);
     
-    // Create particles
+    
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
-        const size = Math.random() * 8 + 4; // 4-12px
+        const size = Math.random() * 8 + 4; 
         const startX = window.innerWidth / 2;
         const startY = window.innerHeight / 3;
         const angle = (Math.PI * 2 * i) / particleCount;
-        const velocity = Math.random() * 200 + 150; // Random velocity
+        const velocity = Math.random() * 200 + 150; 
         const endX = startX + Math.cos(angle) * velocity;
         const endY = startY + Math.sin(angle) * velocity + Math.random() * 100;
         const rotation = Math.random() * 360;
@@ -59,7 +59,7 @@ function triggerConfetti() {
         
         container.appendChild(particle);
         
-        // Trigger animation
+        
         requestAnimationFrame(() => {
             particle.style.left = `${endX}px`;
             particle.style.top = `${endY}px`;
@@ -68,7 +68,7 @@ function triggerConfetti() {
         });
     }
     
-    // Remove container after animation
+    
     setTimeout(() => {
         document.body.removeChild(container);
     }, duration);
@@ -92,7 +92,7 @@ function setupThemeToggle() {
     }
 }
 
-// ============ FAKE DATA ============
+
 const roommates = [
     { id: 1, name: "Janvi Chauhan", initials: "JC", color: "linear-gradient(135deg, #356496)" },
     { id: 2, name: "Aranya Chaudhary", initials: "AC", color: "linear-gradient(135deg, #d86060)" },
@@ -101,15 +101,15 @@ const roommates = [
     { id: 5, name: "Rami Abu Sultan", initials: "RS", color: "linear-gradient(135deg, #d768ba)" }
 ];
 
-// Current user
+
 const currentUser = "Janvi Chauhan";
 
-// Tasks data structure with localStorage support
+
 let tasks = [];
 
-// Load tasks from localStorage or use default data
+
 function loadTasks() {
-    // Always use default sample data as base
+    
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -136,21 +136,21 @@ function loadTasks() {
     saveTasks();
 }
 
-// Save tasks to localStorage
+
 function saveTasks() {
     localStorage.setItem('roommateTasks', JSON.stringify(tasks));
 }
 
-// Expenses data structure with localStorage support
+
 let expenses = [];
 
-// Load expenses from localStorage or use default data
+
 function loadExpenses() {
     const stored = localStorage.getItem('roommateExpenses');
     if (stored) {
         expenses = JSON.parse(stored);
     } else {
-        // Default sample data
+        
         expenses = [
             { id: 1, description: "Groceries at Metro🛒", amount: 87.50, payer: "Janvi Chauhan", participants: ["Janvi Chauhan", "Aranya Chaudhary", "Tamilla Zeynalova", "Aaish Ahmed", "Rami Abu Sultan"], date: "2024-11-15", status: "Pending" },
             { id: 2, description: "Internet Bill🧾", amount: 60.00, payer: "Aranya Chaudhary", participants: ["Janvi Chauhan", "Aranya Chaudhary", "Tamilla Zeynalova", "Aaish Ahmed", "Rami Abu Sultan"], date: "2024-11-14", status: "Settled" },
@@ -163,12 +163,12 @@ function loadExpenses() {
     }
 }
 
-// Save expenses to localStorage
+
 function saveExpenses() {
     localStorage.setItem('roommateExpenses', JSON.stringify(expenses));
 }
 
-// Activity Feed Data
+
 const activityFeed = {
     today: [
         { id: 1, type: 'task', title: 'Task completed', description: 'Tamilla completed "Clean kitchen🧹"', time: '2 hours ago', status: 'Done' },
@@ -185,7 +185,7 @@ const activityFeed = {
     ]
 };
 
-// Conversations Data
+
 let conversations = [
     { id: 1, name: 'Good Vibes only', icon: 'fa-users', lastMessage: 'Aaish: Anyone free this weekend?', time: '10:30 AM', unread: 2, participants: [1, 2, 3, 4, 5], type: 'group' },
     { id: 2, name: 'Aranya Chaudhary', icon: 'fa-user', lastMessage: 'You: Sounds good👍🏻!', time: 'Yesterday', unread: 0, participants: [1, 2], type: 'direct' },
@@ -193,57 +193,57 @@ let conversations = [
     { id: 4, name: 'Bills & Expenses', icon: 'fa-dollar-sign', lastMessage: 'You: I paid the electric bill', time: '3 days ago', unread: 1, participants: [1, 2, 3, 4], type: 'group' }
 ];
 
-// Chat settings (mute status per conversation)
+
 let chatSettings = {};
 
-// Messages Data
+
 let messages = {
-    1: [ // Good Vibes only
+    1: [ 
         { id: 1, sender: 2, text: 'Hey everyone! Just a reminder about the house meeting tomorrow at 7 PM.', time: '9:15 AM', own: false },
         { id: 2, sender: 1, text: 'Thanks for the reminder! I\'ll be there.👍🏻', time: '9:20 AM', own: true },
         { id: 3, sender: 3, text: 'Count me in too!', time: '9:45 AM', own: false },
         { id: 4, sender: 4, text: 'Anyone free this weekend? Thinking of organizing a house cleanup.', time: '10:30 AM', own: false },
         { id: 5, sender: 5, text: 'I can help out on Saturday morning.', time: '10:45 AM', own: false }
     ],
-    2: [ // Aranya Chaudhary
+    2: [ 
         { id: 1, sender: 2, text: 'Hey! Are you free to help me move the couch later?', time: '2:00 PM', own: false },
         { id: 2, sender: 1, text: 'Sure! What time works for you?', time: '2:15 PM', own: true },
         { id: 3, sender: 2, text: 'How about 5 PM?', time: '2:20 PM', own: false },
         { id: 4, sender: 1, text: 'Sounds good!👍🏻', time: '2:22 PM', own: true }
     ],
-    3: [ // Tamilla Zeynalova
+    3: [ 
         { id: 1, sender: 3, text: 'Thanks for cleaning the kitchen yesterday!', time: '8:00 AM', own: false },
         { id: 2, sender: 1, text: 'No problem! Happy to help.🫶', time: '8:30 AM', own: true },
         { id: 3, sender: 3, text: 'Let me know if you need help with anything.', time: '8:45 AM', own: false }
     ],
-    4: [ // Bills & Expenses
+    4: [ 
         { id: 1, sender: 2, text: 'I paid the internet bill. It was $60 this month.', time: '9:00 AM', own: false },
         { id: 2, sender: 1, text: 'Thanks! I paid the electric bill yesterday, $120.', time: '10:00 AM', own: true },
         { id: 3, sender: 3, text: 'I\'ll handle the water bill this week.', time: '11:00 AM', own: false }
     ]
 };
 
-// ============ STATE MANAGEMENT ============
+
 let currentPage = 'home';
 let currentFilter = 'my';
 let currentConversation = null;
-let editingExpenseId = null; // Track which expense is being edited
-let editingTaskId = null; // Track which task is being edited
+let editingExpenseId = null; 
+let editingTaskId = null; 
 
-// ============ NAVIGATION ============
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize theme first
+    
     initializeTheme();
     setupThemeToggle();
     
-    loadTasks(); // Load tasks first
-    loadExpenses(); // Load expenses
+    loadTasks(); 
+    loadExpenses(); 
     initializeApp();
     setupNavigation();
     setupQuickActions();
     setupModals();
-    setupTaskModal(); // Setup task modal
-    setupExpenseModal(); // Setup expense modal
+    setupTaskModal(); 
+    setupExpenseModal(); 
     setupTaskFilters();
     setupChats();
     setupQuickAdd();
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderTasksPage();
     renderExpensesPage();
     renderChatsPage();
-    renderCalendar(); // Render the full month calendar
+    renderCalendar(); 
 });
 
 function initializeApp() {
@@ -266,7 +266,7 @@ function setupNavigation() {
             const page = btn.dataset.page;
             switchPage(page);
             
-            // Update active nav button
+            
             navButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         });
@@ -276,26 +276,26 @@ function setupNavigation() {
 function switchPage(pageName) {
     currentPage = pageName;
     
-    // Hide all pages
+    
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
     
-    // Show selected page
+    
     const targetPage = document.getElementById(`${pageName}-page`);
     if (targetPage) {
         targetPage.classList.add('active');
     }
 }
 
-// ============ HOME PAGE ============
+
 function renderHomePage() {
     const feedContainer = document.getElementById('feed-container');
     if (!feedContainer) return;
     
     let feedHTML = '';
     
-    // Today section
+    
     if (activityFeed.today.length > 0) {
         feedHTML += '<div class="feed-section">';
         feedHTML += '<h4 class="feed-section-title">Today</h4>';
@@ -305,7 +305,7 @@ function renderHomePage() {
         feedHTML += '</div>';
     }
     
-    // Yesterday section
+    
     if (activityFeed.yesterday.length > 0) {
         feedHTML += '<div class="feed-section">';
         feedHTML += '<h4 class="feed-section-title">Yesterday</h4>';
@@ -315,7 +315,7 @@ function renderHomePage() {
         feedHTML += '</div>';
     }
     
-    // This Week section
+    
     if (activityFeed.thisWeek.length > 0) {
         feedHTML += '<div class="feed-section">';
         feedHTML += '<h4 class="feed-section-title">This Week</h4>';
@@ -354,7 +354,7 @@ function createFeedItem(item) {
     `;
 }
 
-// ============ QUICK ACTIONS ============
+
 function setupQuickActions() {
     const actionButtons = document.querySelectorAll('.action-btn[data-action]');
     
@@ -381,7 +381,7 @@ function handleQuickAction(action) {
     modal.classList.add('active');
 }
 
-// ============ MODAL HANDLERS ============
+
 function setupModals() {
     const modal = document.getElementById('action-modal');
     const closeBtn = document.getElementById('close-modal');
@@ -392,7 +392,7 @@ function setupModals() {
         });
     }
     
-    // Close modal when clicking outside
+    
     if (modal) {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
@@ -402,7 +402,7 @@ function setupModals() {
     }
 }
 
-// ============ CALENDAR RENDERING (HTML/CSS-BASED) ============
+
 function renderCalendar() {
     const container = document.getElementById('calendar-days-container');
     if (!container) return;
@@ -412,7 +412,7 @@ function renderCalendar() {
     const currentYear = today.getFullYear();
     const currentDay = today.getDate();
     
-    // Get first day of month and total days
+    
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
@@ -420,18 +420,18 @@ function renderCalendar() {
     let calendarHTML = '';
     let dayIndex = 0;
     
-    // Previous month days
+    
     for (let i = firstDay - 1; i >= 0; i--) {
         const day = daysInPrevMonth - i;
         calendarHTML += createDayCell(day, false, false, true);
         dayIndex++;
     }
     
-    // Current month days
+    
     for (let day = 1; day <= daysInMonth; day++) {
         const isToday = day === currentDay;
         
-        // Check if day has tasks
+        
         const hasEvent = tasks.some(task => {
             const taskDate = new Date(task.dueDate);
             return taskDate.getDate() === day && 
@@ -443,11 +443,11 @@ function renderCalendar() {
         dayIndex++;
     }
     
-    // Calculate how many cells we need to fill the grid
+    
     const totalCells = Math.ceil(dayIndex / 7) * 7;
     const remainingCells = totalCells - dayIndex;
     
-    // Next month days to fill the grid
+    
     for (let day = 1; day <= remainingCells; day++) {
         calendarHTML += createDayCell(day, false, false, true);
         dayIndex++;
@@ -456,7 +456,7 @@ function renderCalendar() {
     container.innerHTML = calendarHTML;
 }
 
-// Helper function to create a day cell
+
 function createDayCell(dayNum, isToday, hasEvent, isOtherMonth) {
     const todayClass = isToday ? 'today' : '';
     const otherMonthClass = isOtherMonth ? 'other-month' : '';
@@ -470,7 +470,7 @@ function createDayCell(dayNum, isToday, hasEvent, isOtherMonth) {
     `;
 }
 
-// ============ TASKS PAGE ============
+
 function setupTaskFilters() {
     const filterTabs = document.querySelectorAll('.filter-tab');
     
@@ -478,32 +478,32 @@ function setupTaskFilters() {
         tab.addEventListener('click', () => {
             currentFilter = tab.dataset.filter;
             
-            // Update active tab
+            
             filterTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             
-            // Re-render tasks
+            
             renderTasksPage();
         });
     });
 }
 
-// Render tasks with full functionality
+
 function renderTasksPage() {
     const taskListContainer = document.getElementById('task-list-container');
     if (!taskListContainer) return;
     
     let filteredTasks = [];
     
-    // Filter tasks based on current filter
+    
     if (currentFilter === 'my') {
-        // Show only current user's pending tasks
+        
         filteredTasks = tasks.filter(task => task.assignees.includes(1) && task.status !== 'completed');
     } else if (currentFilter === 'all') {
-        // Show all pending tasks (exclude completed)
+        
         filteredTasks = tasks.filter(task => task.status !== 'completed');
     } else if (currentFilter === 'completed') {
-        // Show only completed tasks
+        
         filteredTasks = tasks.filter(task => task.status === 'completed');
     }
     
@@ -526,7 +526,7 @@ function renderTasksPage() {
         `;
     } else {
         filteredTasks.forEach(task => {
-            // Build assignees display
+            
             let assigneesHTML = '';
             task.assignees.forEach(assigneeId => {
                 const assignee = roommates.find(r => r.id === assigneeId);
@@ -540,7 +540,7 @@ function renderTasksPage() {
             
             const recurringIcon = task.recurring ? '<i class="fas fa-rotate" style="color: var(--accent-active); font-size: 0.9rem;"></i>' : '';
             
-            // Determine if task is overdue
+            
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const taskDate = new Date(task.dueDate);
@@ -573,14 +573,14 @@ function renderTasksPage() {
                 }
             }
             
-            // Add completed styling
+            
             const completedClass = task.status === 'completed' ? 'task-completed' : '';
             const titleStyle = task.status === 'completed' ? 'style="text-decoration: line-through; opacity: 0.7;"' : '';
             
-            // Add description HTML if description exists
+            
             const descriptionHTML = task.description ? `<p class="task-description">${task.description}</p>` : '';
             
-            // Build urgency badge if urgency is set
+            
             let urgencyBadge = '';
             if (task.urgency) {
                 const urgencyConfig = {
@@ -626,7 +626,7 @@ function renderTasksPage() {
     taskListContainer.innerHTML = tasksHTML;
 }
 
-// Setup Task Modal
+
 function setupTaskModal() {
     const taskModal = document.getElementById('task-modal');
     const addTaskBtn = document.getElementById('main-add-task-btn');
@@ -636,14 +636,14 @@ function setupTaskModal() {
     
     if (!taskModal) return;
     
-    // Open modal for adding new task
+    
     if (addTaskBtn) {
         addTaskBtn.addEventListener('click', () => {
             openTaskModal();
         });
     }
     
-    // Close modal
+    
     if (closeTaskModalBtn) {
         closeTaskModalBtn.addEventListener('click', () => {
             closeTaskModal();
@@ -656,7 +656,7 @@ function setupTaskModal() {
         });
     }
     
-    // Close modal when clicking outside
+    
     if (taskModal) {
         taskModal.addEventListener('click', (e) => {
             if (e.target === taskModal) {
@@ -665,7 +665,7 @@ function setupTaskModal() {
         });
     }
     
-    // Handle form submission
+    
     if (taskForm) {
         taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -674,7 +674,7 @@ function setupTaskModal() {
     }
 }
 
-// Open Task Modal (for add or edit)
+
 function openTaskModal(taskId = null) {
     const taskModal = document.getElementById('task-modal');
     const modalTitle = document.getElementById('task-modal-title');
@@ -685,20 +685,20 @@ function openTaskModal(taskId = null) {
     editingTaskId = taskId;
     
     if (taskId) {
-        // Edit mode
+        
         modalTitle.textContent = 'Edit Task';
         const task = tasks.find(t => t.id === taskId);
         if (task) {
             fillTaskForm(task);
         }
     } else {
-        // Add mode
+        
         modalTitle.textContent = 'Add New Task';
         form.reset();
-        // Set today's date as default
+        
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('task-due-date').value = today;
-        // Uncheck all assignees by default
+        
         document.querySelectorAll('input[name="task-assignees"]').forEach(cb => {
             cb.checked = false;
         });
@@ -707,7 +707,7 @@ function openTaskModal(taskId = null) {
     taskModal.classList.add('active');
 }
 
-// Close Task Modal
+
 function closeTaskModal() {
     const taskModal = document.getElementById('task-modal');
     if (taskModal) {
@@ -720,33 +720,33 @@ function closeTaskModal() {
     }
 }
 
-// Fill Task Form for editing
+
 function fillTaskForm(task) {
     document.getElementById('task-title').value = task.title;
     document.getElementById('task-description').value = task.description || '';
     document.getElementById('task-due-date').value = task.dueDate;
     document.getElementById('task-recurrence').value = task.recurrence || 'one-time';
     
-    // Set the assignees checkboxes
+    
     document.querySelectorAll('input[name="task-assignees"]').forEach(cb => {
         cb.checked = task.assignees.includes(parseInt(cb.value));
     });
 }
 
-// Save Task (Add or Edit)
+
 function saveTask() {
     const title = document.getElementById('task-title').value.trim();
     const description = document.getElementById('task-description').value.trim();
     const dueDate = document.getElementById('task-due-date').value;
     const recurrence = document.getElementById('task-recurrence').value;
     
-    // Get selected assignees from checkboxes
+    
     const assignees = [];
     document.querySelectorAll('input[name="task-assignees"]:checked').forEach(cb => {
         assignees.push(parseInt(cb.value));
     });
     
-    // Validation
+    
     if (!title || !dueDate) {
         showToast('Please fill in the title and due date');
         return;
@@ -758,18 +758,18 @@ function saveTask() {
     }
     
     if (editingTaskId) {
-        // Update existing task
+        
         editTask(editingTaskId, { title, description, assignees, dueDate, recurrence });
     } else {
-        // Add new task
+        
         addTask({ title, description, assignees, dueDate, recurrence });
     }
     
-    // Close modal
+    
     closeTaskModal();
 }
 
-// Add new task
+
 function addTask(taskData) {
     const newTask = {
         id: tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1,
@@ -789,7 +789,7 @@ function addTask(taskData) {
     showToast('Task added successfully!');
 }
 
-// Edit existing task
+
 function editTask(taskId, updatedData) {
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex !== -1) {
@@ -807,7 +807,7 @@ function editTask(taskId, updatedData) {
     }
 }
 
-// Delete task
+
 function deleteTask(taskId) {
     if (confirm('Are you sure you want to delete this task?')) {
         tasks = tasks.filter(t => t.id !== taskId);
@@ -817,7 +817,7 @@ function deleteTask(taskId) {
     }
 }
 
-// Toggle task completed status
+
 function toggleTaskCompleted(taskId) {
     const taskIndex = tasks.findIndex(t => t.id === taskId);
     if (taskIndex !== -1) {
@@ -841,11 +841,11 @@ function setupQuickAdd() {
         addTaskBtn.addEventListener('click', () => {
             const taskName = quickTaskInput.value.trim();
             if (taskName) {
-                // Quick add with defaults: assigned to current user, due today
+                
                 const today = new Date().toISOString().split('T')[0];
                 addTask({
                     title: taskName,
-                    assignees: [1], // Current user
+                    assignees: [1], 
                     dueDate: today
                 });
                 quickTaskInput.value = '';
@@ -862,7 +862,7 @@ function setupQuickAdd() {
     }
 }
 
-// ============ EXPENSES PAGE ============
+
 function setupExpenseModal() {
     const expenseModal = document.getElementById('expense-modal');
     const addExpenseBtn = document.getElementById('add-expense-btn');
@@ -871,16 +871,16 @@ function setupExpenseModal() {
     const expenseForm = document.getElementById('expense-form');
     const expenseDateInput = document.getElementById('expense-date');
     
-    // Set today's date as default
+    
     const today = new Date().toISOString().split('T')[0];
     expenseDateInput.value = today;
     
-    // Open modal for adding new expense
+    
     addExpenseBtn.addEventListener('click', () => {
         openExpenseModal();
     });
     
-    // Close modal
+    
     closeExpenseModalBtn.addEventListener('click', () => {
         closeExpenseModal();
     });
@@ -889,14 +889,14 @@ function setupExpenseModal() {
         closeExpenseModal();
     });
     
-    // Close modal when clicking outside
+    
     expenseModal.addEventListener('click', (e) => {
         if (e.target === expenseModal) {
             closeExpenseModal();
         }
     });
     
-    // Handle form submission
+    
     expenseForm.addEventListener('submit', (e) => {
         e.preventDefault();
         saveExpense();
@@ -911,20 +911,20 @@ function openExpenseModal(expenseId = null) {
     editingExpenseId = expenseId;
     
     if (expenseId) {
-        // Edit mode
+        
         modalTitle.textContent = 'Edit Expense';
         const expense = expenses.find(e => e.id === expenseId);
         if (expense) {
             fillExpenseForm(expense);
         }
     } else {
-        // Add mode
+        
         modalTitle.textContent = 'Add Expense';
         form.reset();
-        // Set today's date as default
+        
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('expense-date').value = today;
-        // Check all participants by default
+        
         document.querySelectorAll('input[name="participants"]').forEach(cb => {
             cb.checked = true;
         });
@@ -947,7 +947,7 @@ function fillExpenseForm(expense) {
     document.getElementById('expense-date').value = expense.date;
     document.getElementById('expense-status').value = expense.status;
     
-    // Set participants checkboxes
+    
     document.querySelectorAll('input[name="participants"]').forEach(cb => {
         cb.checked = expense.participants.includes(cb.value);
     });
@@ -960,20 +960,20 @@ function saveExpense() {
     const date = document.getElementById('expense-date').value;
     const status = document.getElementById('expense-status').value;
     
-    // Get selected participants
+    
     const participants = [];
     document.querySelectorAll('input[name="participants"]:checked').forEach(cb => {
         participants.push(cb.value);
     });
     
-    // Validation
+    
     if (!description || !amount || !payer || !date || participants.length === 0) {
         showToast('Please fill in all fields and select at least one participant');
         return;
     }
     
     if (editingExpenseId) {
-        // Update existing expense
+        
         const expenseIndex = expenses.findIndex(e => e.id === editingExpenseId);
         if (expenseIndex !== -1) {
             expenses[expenseIndex] = {
@@ -988,7 +988,7 @@ function saveExpense() {
             showToast('Expense updated successfully!');
         }
     } else {
-        // Add new expense
+        
         const newExpense = {
             id: expenses.length > 0 ? Math.max(...expenses.map(e => e.id)) + 1 : 1,
             description,
@@ -1002,14 +1002,14 @@ function saveExpense() {
         showToast('Expense added successfully!');
     }
     
-    // Save to localStorage
+    
     saveExpenses();
     
-    // Re-render the expenses page
+    
     renderExpensesPage();
     updateBalanceSummary();
     
-    // Close modal
+    
     closeExpenseModal();
 }
 
@@ -1028,17 +1028,17 @@ function calculateBalances() {
     let youAreOwed = 0;
     
     expenses.forEach(expense => {
-        // Only calculate for pending expenses
+        
         if (expense.status !== 'Pending') return;
         
         const shareAmount = expense.amount / expense.participants.length;
         
-        // If current user is in participants but didn't pay
+        
         if (expense.participants.includes(currentUser) && expense.payer !== currentUser) {
             youOwe += shareAmount;
         }
         
-        // If current user paid but others are in participants
+        
         if (expense.payer === currentUser) {
             const othersCount = expense.participants.filter(p => p !== currentUser).length;
             youAreOwed += shareAmount * othersCount;
@@ -1069,7 +1069,7 @@ function renderExpensesPage() {
     
     let expensesHTML = '';
     
-    // Sort expenses by date (newest first)
+    
     const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
     
     sortedExpenses.forEach(expense => {
@@ -1118,30 +1118,30 @@ function formatDateDisplay(dateString) {
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
     
-    // Check if it's today
+    
     if (date.toDateString() === today.toDateString()) {
         return 'Today';
     }
     
-    // Check if it's yesterday
+    
     if (date.toDateString() === yesterday.toDateString()) {
         return 'Yesterday';
     }
     
-    // Format as Month Day, Year
+    
     const options = { month: 'short', day: 'numeric', year: 'numeric' };
     return date.toLocaleDateString('en-US', options);
 }
 
-// ============ CHATS PAGE ============
+
 function setupChats() {
-    // Setup new chat button
+    
     const newChatBtn = document.getElementById('new-chat-btn');
     if (newChatBtn) {
         newChatBtn.addEventListener('click', openNewChatModal);
     }
     
-    // Setup new chat modal handlers
+    
     setupNewChatModal();
 }
 
@@ -1175,22 +1175,22 @@ function renderChatsPage() {
     
     conversationListContainer.innerHTML = conversationsHTML;
     
-    // Add click handlers to conversation cards
+    
     document.querySelectorAll('.conversation-card').forEach(card => {
         card.addEventListener('click', () => {
             const convId = parseInt(card.dataset.conversationId);
-            // Check screen size to determine behavior
+            
             if (window.innerWidth >= 1024) {
-                // Desktop: show in preview pane
+                
                 openChatDesktop(convId);
             } else {
-                // Mobile: show in overlay
+                
                 openChat(convId);
             }
         });
     });
     
-    // Setup back button (mobile only)
+    
     const backBtn = document.getElementById('back-to-chats');
     if (backBtn) {
         backBtn.addEventListener('click', closeChat);
@@ -1206,25 +1206,25 @@ function openChatDesktop(conversationId) {
     const chatTitle = document.getElementById('chat-title-desktop');
     const messagesContainer = document.getElementById('messages-container-desktop');
     
-    // Hide empty state, show content
+    
     chatEmptyState.style.display = 'none';
     chatContent.style.display = 'flex';
     
-    // Update title with mute icon if needed
+    
     const isMuted = chatSettings[conversationId]?.muted || false;
     const muteIcon = isMuted ? ' <i class="fas fa-bell-slash" style="color: var(--text-muted); font-size: 0.9rem;"></i>' : '';
     chatTitle.innerHTML = conversation.name + muteIcon;
     
-    // Render messages
+    
     renderMessages(conversationId, messagesContainer);
     
-    // Setup message input for desktop
+    
     setupMessageInput('desktop');
     
-    // Setup settings button
+    
     setupChatSettings('desktop');
     
-    // Highlight active conversation
+    
     document.querySelectorAll('.conversation-card').forEach(card => {
         if (parseInt(card.dataset.conversationId) === conversationId) {
             card.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(79, 172, 254, 0.1) 100%)';
@@ -1243,21 +1243,21 @@ function openChat(conversationId) {
     const chatTitle = document.getElementById('chat-title');
     const messagesContainer = document.getElementById('messages-container');
     
-    // Update title with mute icon if needed
+    
     const isMuted = chatSettings[conversationId]?.muted || false;
     const muteIcon = isMuted ? ' <i class="fas fa-bell-slash" style="color: var(--text-muted); font-size: 0.9rem;"></i>' : '';
     chatTitle.innerHTML = conversation.name + muteIcon;
     
-    // Render messages
+    
     renderMessages(conversationId, messagesContainer);
     
-    // Show chat view
+    
     chatView.style.display = 'flex';
     
-    // Setup message input for mobile
+    
     setupMessageInput('mobile');
     
-    // Setup settings button
+    
     setupChatSettings('mobile');
 }
 
@@ -1293,7 +1293,7 @@ function closeChat() {
     currentConversation = null;
 }
 
-// ============ MESSAGE SENDING ============
+
 function setupMessageInput(context) {
     const inputId = context === 'desktop' ? 'message-input-desktop' : 'message-input-mobile';
     const sendBtnId = context === 'desktop' ? 'send-message-btn-desktop' : 'send-message-btn-mobile';
@@ -1303,13 +1303,13 @@ function setupMessageInput(context) {
     
     if (!messageInput || !sendBtn) return;
     
-    // Remove old event listeners by cloning
+    
     const newMessageInput = messageInput.cloneNode(true);
     const newSendBtn = sendBtn.cloneNode(true);
     messageInput.parentNode.replaceChild(newMessageInput, messageInput);
     sendBtn.parentNode.replaceChild(newSendBtn, sendBtn);
     
-    // Add new event listeners
+    
     newSendBtn.addEventListener('click', () => sendMessage(context));
     newMessageInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -1328,43 +1328,43 @@ function sendMessage(context) {
     
     if (!messageText) return;
     
-    // Create new message
+    
     const now = new Date();
     const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     
     const newMessage = {
         id: Date.now(),
-        sender: 1, // Current user (Janvi)
+        sender: 1, 
         text: messageText,
         time: timeString,
         own: true
     };
     
-    // Add to messages array
+    
     if (!messages[currentConversation]) {
         messages[currentConversation] = [];
     }
     messages[currentConversation].push(newMessage);
     
-    // Update conversation last message
+    
     const conversation = conversations.find(c => c.id === currentConversation);
     if (conversation) {
         conversation.lastMessage = `You: ${messageText.substring(0, 30)}${messageText.length > 30 ? '...' : ''}`;
         conversation.time = 'Just now';
     }
     
-    // Clear input
+    
     messageInput.value = '';
     
-    // Re-render messages
+    
     const containerId = context === 'desktop' ? 'messages-container-desktop' : 'messages-container';
     const container = document.getElementById(containerId);
     renderMessages(currentConversation, container);
     
-    // Re-render conversation list to update last message
+    
     renderChatsPage();
     
-    // Reopen chat to maintain state
+    
     if (context === 'desktop') {
         openChatDesktop(currentConversation);
     }
@@ -1372,14 +1372,14 @@ function sendMessage(context) {
     showToast('Message sent!');
 }
 
-// ============ CHAT SETTINGS (MUTE/UNMUTE) ============
+
 function setupChatSettings(context) {
     const settingsBtnId = context === 'desktop' ? 'chat-settings-btn-desktop' : 'chat-settings-btn-mobile';
     const settingsBtn = document.getElementById(settingsBtnId);
     
     if (!settingsBtn) return;
     
-    // Remove old event listener
+    
     const newSettingsBtn = settingsBtn.cloneNode(true);
     settingsBtn.parentNode.replaceChild(newSettingsBtn, settingsBtn);
     
@@ -1391,7 +1391,7 @@ function openChatSettingsMenu(context) {
     
     const isMuted = chatSettings[currentConversation]?.muted || false;
     
-    // Create dropdown menu
+    
     const dropdown = document.createElement('div');
     dropdown.className = 'chat-settings-dropdown';
     dropdown.innerHTML = `
@@ -1401,7 +1401,7 @@ function openChatSettingsMenu(context) {
         </div>
     `;
     
-    // Position dropdown
+    
     const settingsBtnId = context === 'desktop' ? 'chat-settings-btn-desktop' : 'chat-settings-btn-mobile';
     const settingsBtn = document.getElementById(settingsBtnId);
     const rect = settingsBtn.getBoundingClientRect();
@@ -1412,12 +1412,12 @@ function openChatSettingsMenu(context) {
     
     document.body.appendChild(dropdown);
     
-    // Add click handler
+    
     dropdown.querySelector('[data-action="toggle-mute"]').addEventListener('click', () => {
         toggleMute(currentConversation);
         document.body.removeChild(dropdown);
         
-        // Refresh the chat view to show mute icon
+        
         if (context === 'desktop') {
             openChatDesktop(currentConversation);
         } else {
@@ -1425,7 +1425,7 @@ function openChatSettingsMenu(context) {
         }
     });
     
-    // Close dropdown when clicking outside
+    
     setTimeout(() => {
         document.addEventListener('click', function closeDropdown(e) {
             if (!dropdown.contains(e.target) && e.target !== settingsBtn) {
@@ -1451,10 +1451,10 @@ function toggleMute(conversationId) {
     
     showToast(`${conversation.name} ${action}`);
     
-    // Re-render conversation list to show/hide mute icon
+    
     renderChatsPage();
     
-    // Reopen current chat if it matches
+    
     if (currentConversation === conversationId) {
         if (window.innerWidth >= 1024) {
             openChatDesktop(conversationId);
@@ -1462,7 +1462,7 @@ function toggleMute(conversationId) {
     }
 }
 
-// ============ NEW CHAT / GROUP CREATION ============
+
 function setupNewChatModal() {
     const newChatModal = document.getElementById('new-chat-modal');
     const closeBtn = document.getElementById('close-new-chat-modal');
@@ -1471,7 +1471,7 @@ function setupNewChatModal() {
         closeBtn.addEventListener('click', closeNewChatModal);
     }
     
-    // Close when clicking outside
+    
     if (newChatModal) {
         newChatModal.addEventListener('click', (e) => {
             if (e.target === newChatModal) {
@@ -1480,7 +1480,7 @@ function setupNewChatModal() {
         });
     }
     
-    // Setup action buttons
+    
     const directChatBtn = document.getElementById('start-direct-chat-btn');
     const groupChatBtn = document.getElementById('start-group-chat-btn');
     
@@ -1499,7 +1499,7 @@ function openNewChatModal() {
     const directView = document.getElementById('new-chat-direct');
     const groupView = document.getElementById('new-chat-group');
     
-    // Show choice view, hide others
+    
     choiceView.style.display = 'block';
     directView.style.display = 'none';
     groupView.style.display = 'none';
@@ -1519,14 +1519,14 @@ function showDirectChatForm() {
     choiceView.style.display = 'none';
     directView.style.display = 'block';
     
-    // Populate roommate list
+    
     const roommatesList = document.getElementById('roommates-list-direct');
     roommatesList.innerHTML = '';
     
     roommates.forEach(roommate => {
-        if (roommate.id === 1) return; // Skip current user
+        if (roommate.id === 1) return; 
         
-        // Check if direct chat already exists
+        
         const existingChat = conversations.find(c => 
             c.type === 'direct' && 
             c.participants.includes(1) && 
@@ -1560,14 +1560,14 @@ function showGroupChatForm() {
     choiceView.style.display = 'none';
     groupView.style.display = 'block';
     
-    // Populate roommate checkboxes with horizontal layout
+    
     const roommatesList = document.getElementById('roommates-list-group');
     roommatesList.innerHTML = '';
     
     roommates.forEach(roommate => {
-        if (roommate.id === 1) return; // Skip current user
+        if (roommate.id === 1) return; 
         
-        // Create horizontal layout: checkbox + name on same line
+        
         const item = document.createElement('div');
         item.className = 'modal-assignee-item';
         
@@ -1587,7 +1587,7 @@ function showGroupChatForm() {
         roommatesList.appendChild(item);
     });
     
-    // Setup form submission
+    
     const form = document.getElementById('group-chat-form');
     const newForm = form.cloneNode(true);
     form.parentNode.replaceChild(newForm, form);
@@ -1602,7 +1602,7 @@ function createDirectChat(roommateId) {
     const roommate = roommates.find(r => r.id === roommateId);
     if (!roommate) return;
     
-    // Create new conversation
+    
     const newConvId = conversations.length > 0 ? Math.max(...conversations.map(c => c.id)) + 1 : 1;
     const newConversation = {
         id: newConvId,
@@ -1621,7 +1621,7 @@ function createDirectChat(roommateId) {
     closeNewChatModal();
     renderChatsPage();
     
-    // Open the new chat
+    
     if (window.innerWidth >= 1024) {
         openChatDesktop(newConvId);
     } else {
@@ -1646,10 +1646,10 @@ function createGroupChat() {
         return;
     }
     
-    // Add current user to participants
+    
     selectedParticipants.unshift(1);
     
-    // Create new conversation
+    
     const newConvId = conversations.length > 0 ? Math.max(...conversations.map(c => c.id)) + 1 : 1;
     const newConversation = {
         id: newConvId,
@@ -1668,7 +1668,7 @@ function createGroupChat() {
     closeNewChatModal();
     renderChatsPage();
     
-    // Open the new chat
+    
     if (window.innerWidth >= 1024) {
         openChatDesktop(newConvId);
     } else {
@@ -1678,7 +1678,7 @@ function createGroupChat() {
     showToast(`Group "${groupName}" created!`);
 }
 
-// ============ TOAST NOTIFICATIONS ============
+
 function showToast(message) {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toast-message');
@@ -1691,24 +1691,24 @@ function showToast(message) {
     }, 3000);
 }
 
-// ============ UTILITY FUNCTIONS ============
+
 function getRoommateById(id) {
     return roommates.find(r => r.id === id);
 }
 
 function formatDate(dateString) {
-    // Simple date formatting (can be enhanced)
+    
     return dateString;
 }
 
-// ============ ANIMATIONS & INTERACTIONS ============
-// Add hover effects and micro-interactions
+
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Add ripple effect to buttons (optional enhancement)
+    
     const buttons = document.querySelectorAll('button');
     buttons.forEach(btn => {
         btn.addEventListener('click', function(e) {
-            // Small scale animation on click
+            
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = '';

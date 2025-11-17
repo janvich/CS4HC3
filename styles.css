@@ -3,47 +3,47 @@
    Cool Blue-Grey Neumorphic Design
    =================================== */
 
-/* ============ ROOT & RESET ============ */
+
 :root {
-    /* 🎨 SOFT PLANNER-INSPIRED PALETTE - Inspired by reference image */
-    /* Base Backgrounds */
-    --bg-root: linear-gradient(135deg, #fbfcfc 0%, #b0e8f9 100%); /* Soft blue-grey outer background */
-    --bg-app: #b8c5d1; /* Gradient from provided image */
-    --bg-elevated: #f6f8fa; /* Almost white card background */
+    
+    
+    --bg-root: linear-gradient(135deg, #fbfcfc 0%, #b0e8f9 100%); 
+    --bg-app: #b8c5d1; 
+    --bg-elevated: #f6f8fa; 
     --bg-card-hover: #ffffff;
     
-    /* Borders & Dividers */
+    
     --border-soft: #d8e1e9;
     --border-light: #e4eaef;
     
-    /* Text Colors */
+    
     --text-primary: #05294e;
     --text-secondary: #6b7785;
     --text-muted: #9aa5b1;
     --text-heading: #2c3743;
 
-    /* Accent Colors */
-    --accent-primary: #05294e; /* Muted blue accent */
+    
+    --accent-primary: #05294e; 
     --accent-pill: #e8eef4;
     
     
-    /* Navigation */
+    
     --nav-bg: #e8eef3;
     --nav-active: #3a4654;
     --nav-inactive: #9aa5b1;
     
-    /* ⚠️ STATUS COLORS (PRESERVED) */
+    
     --status-overdue: #ff4d4d;
     --status-done: #2ecc71;
     --status-warning: #ffb020;
     --status-pending: #5c7cfa;
     --status-info: #4a90e2;
     
-    /* Gradients */
+    
     --gradient-primary: linear-gradient(135deg, #7c9cb8 0%, #5b8fb9 100%);
     --gradient-accent: linear-gradient(135deg, #5b8fb9 0%, #4a7ba7 100%);
     
-    /* Spacing */
+    
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -51,53 +51,53 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 2.5rem;
     
-    /* Border Radius */
+    
     --radius-sm: 10px;
     --radius-md: 14px;
     --radius-lg: 18px;
     --radius-xl: 24px;
     --radius-full: 999px;
     
-    /* Neumorphic Shadows - Softer for the muted palette */
+    
     --shadow-neumorphic: 0px 4px 12px rgba(44, 62, 80, 0.08);
     --shadow-neumorphic-sm: 0px 2px 8px rgba(44, 62, 80, 0.06);
     --shadow-neumorphic-lg: 0px 8px 24px rgba(44, 62, 80, 0.1);
     --shadow-inset: inset 0px 2px 4px rgba(44, 62, 80, 0.05);
     --shadow-hover: 0px 6px 16px rgba(44, 62, 80, 0.12);
     
-    /* Transitions */
+    
     --transition-fast: 0.15s ease;
     --transition-base: 0.3s ease;
 }
 
-/* ============ DARK MODE THEME ============ */
+
 body.dark-mode {
-    /* Base Backgrounds */
+    
     --bg-root: linear-gradient(135deg, #1a1f2e 0%, #252d3d 100%);
-    --bg-app: #151a24; /* Darker app background */
-    --bg-elevated: #1e2530; /* Darker cards */
+    --bg-app: #151a24; 
+    --bg-elevated: #1e2530; 
     --bg-card-hover: #252d3d;
     
-    /* Borders & Dividers */
+    
     --border-soft: #2a3240;
     --border-light: #262e3d;
     
-    /* Text Colors */
+    
     --text-primary: #e8ecf1;
     --text-secondary: #b8c1cd;
     --text-muted: #7d8694;
     --text-heading: #f0f4f8;
 
-    /* Accent Colors */
-    --accent-primary: #3a5a7a; /* Darker blue */
+    
+    --accent-primary: #3a5a7a; 
     --accent-pill: #252d3d;
     
-    /* Navigation */
-    --nav-bg: #1a1f2e; /* Much darker nav bar */
+    
+    --nav-bg: #1a1f2e; 
     --nav-active: #e8ecf1;
     --nav-inactive: #6b7785;
     
-    /* Neumorphic Shadows - Darker for dark mode */
+    
     --shadow-neumorphic: 0px 4px 12px rgba(0, 0, 0, 0.5);
     --shadow-neumorphic-sm: 0px 2px 8px rgba(0, 0, 0, 0.4);
     --shadow-neumorphic-lg: 0px 8px 24px rgba(0, 0, 0, 0.6);
@@ -121,27 +121,27 @@ body {
     transition: background var(--transition-base), color var(--transition-base);
 }
 
-/* ============ APP CONTAINER ============ */
+
 .app-container {
     max-width: 480px;
     margin: 0 auto;
     background: linear-gradient(135deg, #fbfcfc 0%, #c8eefa 100%);
     min-height: 100vh;
-    padding-bottom: 90px; /* Increased from 80px to prevent overlap */
+    padding-bottom: 90px; 
     position: relative;
 }
 
-/* Dark mode app container background */
+
 body.dark-mode .app-container {
     background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
 }
 
-/* ============ PAGE SECTIONS ============ */
+
 .page {
     display: none;
     animation: fadeIn 0.3s ease;
     padding: var(--spacing-lg);
-    padding-bottom: calc(var(--spacing-xl) + 20px); /* Extra padding for bottom nav */
+    padding-bottom: calc(var(--spacing-xl) + 20px); 
     background: transparent;
 }
 
@@ -160,7 +160,7 @@ body.dark-mode .app-container {
     }
 }
 
-/* ============ TYPOGRAPHY ============ */
+
 h1 {
     font-size: 1.75rem;
     font-weight: 600;
@@ -187,7 +187,7 @@ h3 {
     margin-bottom: var(--spacing-md);
 }
 
-/* ============ CARD COMPONENT ============ */
+
 .card {
     background: var(--bg-elevated);
     border-radius: var(--radius-lg);
@@ -204,7 +204,7 @@ h3 {
     background: var(--bg-card-hover);
 }
 
-/* ============ BUTTONS ============ */
+
 .icon-btn {
     background: var(--bg-elevated);
     border: none;
@@ -267,7 +267,7 @@ h3 {
     background: #2a3a52;
 }
 
-/* ============ AVATARS ============ */
+
 .avatar {
     width: 40px;
     height: 40px;
@@ -288,7 +288,7 @@ h3 {
     font-size: 0.75rem;
 }
 
-/* ============ PILLS & BADGES ============ */
+
 .pill {
     display: inline-flex;
     align-items: center;
@@ -300,7 +300,7 @@ h3 {
     box-shadow: var(--shadow-neumorphic-sm);
 }
 
-/* Status Pills */
+
 .pill.today {
     background: var(--accent-pill);
     color: var(--accent-primary);
@@ -325,7 +325,7 @@ h3 {
     border: 1px solid rgba(46, 204, 113, 0.2);
 }
 
-/* Urgency Pills */
+
 .pill.urgency-high {
     background: rgba(255, 77, 77, 0.15);
     color: var(--status-overdue);
@@ -365,7 +365,7 @@ h3 {
     box-shadow: var(--shadow-neumorphic-sm);
 }
 
-/* ============ HOME PAGE ============ */
+
 .page-header {
     margin-bottom: var(--spacing-xl);
 }
@@ -397,7 +397,7 @@ body.dark-mode .page-header.hero {
     display: none;
 }
 
-/* In dark mode: hide light logo, show dark logo */
+
 body.dark-mode .logo-light {
     display: none;
 }
@@ -447,7 +447,7 @@ body.dark-mode .logo-dark {
     gap: var(--spacing-sm);
 }
 
-/* Home Grid - Mobile (stacked) */
+
 .home-grid {
     display: flex;
     flex-direction: column;
@@ -459,7 +459,7 @@ body.dark-mode .logo-dark {
     width: 100%;
 }
 
-/* Today at a Glance Widget */
+
 .glance-widget {
     background: var(--bg-elevated);
     border: 1px solid var(--border-soft);
@@ -495,7 +495,7 @@ body.dark-mode .logo-dark {
     color: var(--text-muted);
 }
 
-/* Fairness Card */
+
 .fairness-card {
     background: var(--bg-elevated);
     border: 1px solid var(--border-soft);
@@ -508,7 +508,7 @@ body.dark-mode .logo-dark {
     padding: var(--spacing-lg) 0;
 }
 
-/* Fairness Ring */
+
 .fairness-ring {
     position: relative;
     flex-shrink: 0;
@@ -530,7 +530,7 @@ body.dark-mode .logo-dark {
     transition: stroke-dashoffset 1s ease;
 }
 
-/* Dark mode ring progress */
+
 body.dark-mode .ring-progress {
     stroke: #5b8fb9;
 }
@@ -556,7 +556,7 @@ body.dark-mode .ring-progress {
     color: var(--text-muted);
 }
 
-/* Calendar Strip - Updated for Full Month View */
+
 .calendar-strip {
     padding: var(--spacing-lg);
     background: var(--bg-elevated);
@@ -666,7 +666,7 @@ body.dark-mode .ring-progress {
     color: var(--text-muted);
 }
 
-/* Activity Feed */
+
 .activity-feed {
     margin-top: 0;
 }
@@ -751,7 +751,7 @@ body.dark-mode .ring-progress {
     color: var(--text-muted);
 }
 
-/* ============ TASKS PAGE ============ */
+
 .tasks-grid {
     display: flex;
     flex-direction: column;
@@ -815,7 +815,7 @@ body.dark-mode .ring-progress {
     background: var(--bg-card-hover);
 }
 
-/* Completed Task Styling */
+
 .task-card.task-completed {
     background: var(--bg-root);
     opacity: 0.75;
@@ -939,7 +939,7 @@ body.dark-mode .ring-progress {
     color: var(--text-muted);
 }
 
-/* ============ EXPENSES PAGE ============ */
+
 .balance-summary {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1086,7 +1086,7 @@ body.dark-mode .ring-progress {
     color: var(--status-overdue);
 }
 
-/* Checkbox styling for participants */
+
 .checkbox-group {
     display: flex;
     flex-direction: column;
@@ -1121,7 +1121,7 @@ body.dark-mode .ring-progress {
     font-size: 0.9rem;
 }
 
-/* ============ CHATS PAGE ============ */
+
 .chats-split-layout {
     display: flex;
     flex-direction: column;
@@ -1242,7 +1242,7 @@ body.dark-mode .ring-progress {
     box-shadow: var(--shadow-neumorphic-sm);
 }
 
-/* Chat View */
+
 .chat-view {
     position: fixed;
     top: 0;
@@ -1383,7 +1383,7 @@ body.dark-mode .ring-progress {
     box-shadow: 0 0 0 3px rgba(92, 124, 250, 0.15);
 }
 
-/* ============ CHAT SETTINGS DROPDOWN ============ */
+
 .chat-settings-dropdown {
     background: var(--bg-elevated);
     border-radius: var(--radius-md);
@@ -1428,7 +1428,7 @@ body.dark-mode .ring-progress {
     text-align: center;
 }
 
-/* ============ NEW CHAT MODAL STYLES ============ */
+
 .roommates-selection {
     display: flex;
     flex-direction: column;
@@ -1463,7 +1463,7 @@ body.dark-mode .ring-progress {
     flex: 1;
 }
 
-/* ============ PROFILE PAGE ============ */
+
 .profile-grid {
     display: flex;
     flex-direction: column;
@@ -1590,7 +1590,7 @@ body.dark-mode .ring-progress {
     color: var(--text-primary);
 }
 
-/* Toggle Switch */
+
 .toggle {
     position: relative;
     width: 48px;
@@ -1637,13 +1637,13 @@ body.dark-mode .ring-progress {
     transform: translateX(22px);
 }
 
-/* Dark mode toggle colors */
+
 body.dark-mode .toggle-slider {
-    background: #2a3240; /* OFF state in dark mode */
+    background: #2a3240; 
 }
 
 body.dark-mode .toggle input:checked + .toggle-slider {
-    background: #5b8fb9; /* ON state in dark mode */
+    background: #5b8fb9; 
 }
 
 .house-info-section {
@@ -1685,7 +1685,7 @@ body.dark-mode .toggle input:checked + .toggle-slider {
     color: var(--text-secondary);
 }
 
-/* ============ BOTTOM NAVIGATION ============ */
+
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -1699,8 +1699,8 @@ body.dark-mode .toggle input:checked + .toggle-slider {
     justify-content: space-around;
     padding: var(--spacing-md) 0;
     box-shadow: 0 -4px 12px rgba(15, 35, 71, 0.08);
-    z-index: 1000; /* Increased from 100 to 1000 to ensure it stays above page content */
-    border-radius: 0; /* Sharp corners */
+    z-index: 1000; 
+    border-radius: 0; 
     min-height: 70px;
 }
 
@@ -1728,13 +1728,13 @@ body.dark-mode .bottom-nav {
 .nav-btn i {
     font-size: 1.4rem;
     transition: all var(--transition-fast);
-    pointer-events: none; /* Ensure icon doesn't intercept clicks */
+    pointer-events: none; 
 }
 
 .nav-btn span {
     font-size: 0.72rem;
     font-weight: 500;
-    pointer-events: none; /* Ensure text doesn't intercept clicks */
+    pointer-events: none; 
 }
 
 .nav-btn:hover {
@@ -1749,7 +1749,7 @@ body.dark-mode .bottom-nav {
     transform: scale(1.15);
 }
 
-/* ============ MODAL ============ */
+
 .modal {
     display: none;
     position: fixed;
@@ -1774,7 +1774,7 @@ body.dark-mode .bottom-nav {
     background: var(--bg-elevated);
     border-radius: var(--radius-xl);
     width: 100%;
-    max-width: 460px; /* Increased from 400px */
+    max-width: 460px; 
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: var(--shadow-neumorphic-lg);
@@ -1849,7 +1849,7 @@ body.dark-mode .bottom-nav {
     box-shadow: 0 0 0 3px rgba(92, 124, 250, 0.15);
 }
 
-/* Urgency Select - Optional Field Styling */
+
 .form-group select#task-urgency {
     font-style: normal;
     opacity: 0.95;
@@ -1872,7 +1872,7 @@ body.dark-mode .bottom-nav {
     font-weight: 400;
 }
 
-/* Subtle styling to indicate optional field */
+
 .form-group:has(#task-urgency) label::after {
     content: " (Optional)";
     font-weight: 400;
@@ -1888,7 +1888,7 @@ body.dark-mode .bottom-nav {
     font-style: italic;
 }
 
-/* Modal Assignee Item - for horizontal checkbox + name layout */
+
 .modal-assignee-item {
     display: flex;
     align-items: center;
@@ -1921,7 +1921,7 @@ body.dark-mode .bottom-nav {
     font-size: 0.95rem !important;
 }
 
-/* ============ TOAST ============ */
+
 .toast {
     position: fixed;
     bottom: 100px;
@@ -1954,7 +1954,7 @@ body.dark-mode .bottom-nav {
    RESPONSIVE BREAKPOINTS - DESKTOP STYLES
    ============================================ */
 
-/* ============ TABLET (768px+) ============ */
+
 @media (min-width: 768px) {
     body {
         background: linear-gradient(135deg, #e9f8fd);
@@ -1987,7 +1987,7 @@ body.dark-mode .bottom-nav {
     
     .bottom-nav {
         max-width: 1200px;
-        border-radius: 0; /* Keep sharp corners on tablet */
+        border-radius: 0; 
         padding: var(--spacing-md) 0;
     }
     
@@ -2000,10 +2000,10 @@ body.dark-mode .bottom-nav {
     }
 }
 
-/* ============ DESKTOP (1024px+) ============ */
+
 @media (min-width: 1024px) {
     
-    /* ========== HOME PAGE - 2 COLUMN ========== */
+    
     .home-grid {
         display: grid;
         grid-template-columns: 400px 1fr;
@@ -2019,7 +2019,7 @@ body.dark-mode .bottom-nav {
     .page-header.hero {
         margin: calc(-1 * var(--spacing-xl)) calc(-1 * 2rem);
         margin-bottom: var(--spacing-xl);
-        border-radius: var(--radius-xl); /* Keep all corners rounded */
+        border-radius: var(--radius-xl); 
     }
     
     .filter-tab {
@@ -2033,7 +2033,7 @@ body.dark-mode .bottom-nav {
         gap: var(--spacing-lg);
     }
     
-    /* ========== EXPENSES PAGE ========== */
+    
     .balance-summary {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-lg);
@@ -2049,7 +2049,7 @@ body.dark-mode .bottom-nav {
         gap: var(--spacing-lg);
     }
     
-    /* ========== CHATS PAGE - SPLIT VIEW ========== */
+    
     .chats-split-layout {
         display: grid;
         grid-template-columns: 380px 1fr;
@@ -2122,7 +2122,7 @@ body.dark-mode .bottom-nav {
         display: none !important;
     }
     
-    /* ========== PROFILE PAGE - 2 COLUMN ========== */
+    
     .profile-grid {
         display: grid;
         grid-template-columns: 320px 1fr;
@@ -2151,7 +2151,7 @@ body.dark-mode .bottom-nav {
     }
 }
 
-/* ============ LARGE DESKTOP (1280px+) ============ */
+
 @media (min-width: 1280px) {
     .app-container {
         margin: 3rem auto;
@@ -2187,7 +2187,7 @@ body.dark-mode .bottom-nav {
     }
 }
 
-/* ============ RESPONSIVE - SMALL MOBILE ============ */
+
 @media (max-width: 360px) {
     .quick-actions {
         grid-template-columns: 1fr;
@@ -2201,7 +2201,7 @@ body.dark-mode .bottom-nav {
         grid-template-columns: 1fr;
     }
 }
-/* ============ CUSTOM ICON STYLES ============ */
+
 .custom-icon {
     width: 2.5rem;
     height: 2.5rem;
