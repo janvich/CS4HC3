@@ -1,0 +1,432 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{fontawesome5}
+\usepackage{booktabs}
+\usepackage{multicol}
+
+% Color scheme
+\definecolor{primaryblue}{RGB}{102, 126, 234}
+\definecolor{accentpurple}{RGB}{118, 75, 162}
+\definecolor{textgray}{RGB}{51, 51, 51}
+\definecolor{lightgray}{RGB}{245, 245, 245}
+\definecolor{darkgray}{RGB}{102, 102, 102}
+
+% Page style
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primaryblue}{\textbf{Group 25 - Milestone 3 Report}}}
+\fancyhead[R]{\textcolor{darkgray}{RoomEase}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Title formatting
+\titleformat{\section}
+{\Large\bfseries\color{primaryblue}}
+{}
+{0em}
+{}[\titlerule[0.5pt]]
+
+\titleformat{\subsection}
+{\large\bfseries\color{accentpurple}}
+{}
+{0em}
+{}
+
+% Custom boxes
+\newtcolorbox{featurebox}[1]{
+    colback=lightgray,
+    colframe=primaryblue,
+    title=#1,
+    fonttitle=\bfseries,
+    rounded corners=3pt
+}
+
+\newtcolorbox{techbox}{
+    colback=lightgray,
+    colframe=accentpurple,
+    rounded corners=3pt,
+    left=5pt,
+    right=5pt
+}
+
+% Document
+\title{\Huge\textbf{\textcolor{primaryblue}{RoomEase}}\\
+\Large High-Fidelity Prototype Report\\
+\large Milestone 3 - Group 25}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{0.5cm}
+
+\begin{center}
+\textit{``Small Updates, Big Harmony.''}
+\end{center}
+
+\vspace{1cm}
+
+\tableofcontents
+\newpage
+
+\section{Project Description}
+
+\subsection{Overview}
+\textbf{RoomEase} is a comprehensive roommate task management system designed to help students and adults living in shared accommodations manage household responsibilities, expenses, and communication effectively. The system addresses the common challenges of coordination, fairness, and accountability in shared living spaces through an intuitive, visually appealing interface.
+
+\subsection{System Purpose}
+RoomEase serves as a centralized platform for:
+\begin{itemize}
+    \item \textbf{Task Management}: Creating, assigning, and tracking household chores with support for recurring tasks and urgency levels
+    \item \textbf{Expense Tracking}: Logging shared expenses, splitting costs fairly, and maintaining transparent financial records
+    \item \textbf{Communication}: Facilitating roommate communication through integrated chat functionality
+    \item \textbf{Fairness Monitoring}: Tracking contribution balance through dynamic fairness calculations and activity feeds
+\end{itemize}
+
+\subsection{Target Users}
+The primary users are university students and working adults (ages 18-40) living with 2-5 roommates in shared apartments, houses, or dorm-style accommodations. The system is designed to be accessible on both mobile devices and desktop computers, supporting users' on-the-go lifestyles.
+
+\section{Technology Stack \& Implementation}
+
+\subsection{Core Technologies}
+\begin{techbox}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{HTML5}: Semantic markup for structure and accessibility
+    \item \textbf{CSS3}: Advanced styling with custom properties, Flexbox, Grid, and animations
+    \item \textbf{Vanilla JavaScript (ES6+)}: Client-side logic and DOM manipulation
+    \item \textbf{LocalStorage API}: Client-side data persistence
+    \item \textbf{Font Awesome 6.4.0}: Icon library for consistent visual elements
+    \item \textbf{Google Fonts (Inter)}: Modern, readable typography
+\end{itemize}
+\end{techbox}
+
+\subsection{Design Approach}
+The prototype implements a \textbf{neumorphic design system} with:
+\begin{itemize}
+    \item Soft shadows and subtle depth for a modern, tactile feel
+    \item Consistent color palette with primary blue (\#667eea) and accent purple (\#764ba2)
+    \item Smooth animations and transitions for enhanced user experience
+    \item Full dark mode support with automatic theme detection
+    \item Responsive design optimized for mobile-first, with full-screen desktop support
+\end{itemize}
+
+\subsection{Architecture}
+The application follows a single-page architecture with:
+\begin{itemize}
+    \item \textbf{Modular JavaScript}: Functions organized by feature (tasks, expenses, chat, profile)
+    \item \textbf{CSS Custom Properties}: Centralized theming and easy dark mode switching
+    \item \textbf{LocalStorage Persistence}: All data stored client-side with automatic save/load
+    \item \textbf{Event-Driven UI}: Real-time updates through event listeners and DOM manipulation
+\end{itemize}
+
+\section{Major Features}
+
+\subsection{Horizontal Prototype Coverage}
+The horizontal prototype demonstrates the complete system concept across five main sections:
+
+\begin{featurebox}{1. Home Dashboard}
+The home page provides a comprehensive overview of the shared living space:
+\begin{itemize}
+    \item \textbf{Personalized Welcome}: Dynamic greeting based on time of day with user's name
+    \item \textbf{Quick Stats Bar}: At-a-glance metrics for pending tasks, overdue items, pending expenses, and net balance
+    \item \textbf{Today's To-Do Widget}: Focused view of tasks due today with empty state handling
+    \item \textbf{Fairness Overview}: Dynamic circular progress indicator showing contribution balance (0-100\%)
+    \item \textbf{Interactive Calendar}: Monthly view with task indicators and clickable dates
+    \item \textbf{Activity Feed}: Chronological feed of recent actions (tasks completed, expenses added, messages sent) grouped by time periods
+\end{itemize}
+\end{featurebox}
+
+\begin{featurebox}{2. Tasks Management}
+Complete task lifecycle management with:
+\begin{itemize}
+    \item \textbf{CRUD Operations}: Create, read, update, and delete tasks with full form validation
+    \item \textbf{Task Assignment}: Multi-select assignment to one or more roommates
+    \item \textbf{Recurrence Support}: One-time, weekly, and monthly recurring tasks
+    \item \textbf{Urgency Levels}: High, Moderate, and Low priority with visual indicators
+    \item \textbf{Smart Filtering}: Filter by "My Tasks", "Today", "All Tasks", or "Completed"
+    \item \textbf{Search Functionality}: Real-time search across task titles and descriptions
+    \item \textbf{Status Tracking}: Visual indicators for overdue, today, pending, and completed states
+    \item \textbf{Completion Celebration}: Confetti animation on task completion for positive reinforcement
+\end{itemize}
+\end{featurebox}
+
+\begin{featurebox}{3. Expenses Management}
+Comprehensive expense tracking and splitting:
+\begin{itemize}
+    \item \textbf{Expense Logging}: Add expenses with description, amount, payer, and participants
+    \item \textbf{Automatic Splitting}: Fair division of costs across selected roommates
+    \item \textbf{Balance Calculation}: Real-time calculation of "You owe" and "You are owed" amounts
+    \item \textbf{Net Balance Display}: Clear indication of overall financial position
+    \item \textbf{Status Management}: Track expenses as "Pending" or "Settled"
+    \item \textbf{Search \& Filter}: Quick search across expense descriptions
+    \item \textbf{Visual Indicators}: Color-coded status badges and amount highlighting
+\end{itemize}
+\end{featurebox}
+
+\begin{featurebox}{4. Chat \& Communication}
+Integrated messaging system:
+\begin{itemize}
+    \item \textbf{Conversation List}: View all active conversations (1-on-1 and group chats)
+    \item \textbf{Message Threading}: Organized message display with sender avatars and timestamps
+    \item \textbf{Group Chats}: Support for multiple conversation types (general, bills, etc.)
+    \item \textbf{Unread Badges}: Visual indicators for unread message counts
+    \item \textbf{Responsive Layout}: Desktop split-view and mobile-optimized layouts
+    \item \textbf{Real-time Updates}: Instant message display with smooth animations
+\end{itemize}
+\end{featurebox}
+
+\begin{featurebox}{5. Profile \& Settings}
+User profile and preferences:
+\begin{itemize}
+    \item \textbf{User Statistics}: Tasks completed this week, house contribution percentage, current streak
+    \item \textbf{Preferences}: Dark mode toggle, task reminders, expense updates, quiet hours
+    \item \textbf{Roommate List}: View all roommates with avatars and initials
+    \item \textbf{Theme Management}: Persistent theme selection with system preference detection
+\end{itemize}
+\end{featurebox}
+
+\subsection{Vertical Prototypes}
+
+\subsubsection{Vertical Prototype 1: Task Management Workflow}
+\textbf{Depth of Implementation:} Fully functional task creation, assignment, completion, and tracking workflow.
+
+\textbf{Key Functionality:}
+\begin{enumerate}
+    \item User clicks "+ Add Task" button
+    \item Modal form appears with all task fields (title, description, assignees, due date, recurrence, urgency)
+    \item Form validation ensures required fields are completed
+    \item Task is saved to LocalStorage and immediately appears in the task list
+    \item User can filter tasks by various criteria (My Tasks, Today, All, Completed)
+    \item User can mark task as complete, triggering confetti animation
+    \item Completed tasks move to "Completed" filter view
+    \item Fairness score updates dynamically based on task completion
+    \item Activity feed updates with task completion event
+\end{enumerate}
+
+\textbf{Testing Capabilities:}
+This vertical prototype supports comprehensive usability testing for:
+\begin{itemize}
+    \item Task creation efficiency and error handling
+    \item Filter usability and effectiveness
+    \item Visual feedback and confirmation mechanisms
+    \item Data persistence and state management
+\end{itemize}
+
+\subsubsection{Vertical Prototype 2: Expense Tracking \& Balance Calculation}
+\textbf{Depth of Implementation:} Complete expense lifecycle with automatic balance calculation and financial transparency.
+
+\textbf{Key Functionality:}
+\begin{enumerate}
+    \item User adds new expense with amount, payer, and participants
+    \item System automatically calculates split amounts per participant
+    \item Balance summary updates in real-time showing:
+    \begin{itemize}
+        \item Total amount user owes to others
+        \item Total amount others owe to user
+        \item Net balance (positive or negative)
+    \end{itemize}
+    \item User can mark expenses as "Settled" when paid
+    \item Balance calculations adjust based on settlement status
+    \item Expense history is maintained with full edit/delete capabilities
+    \item Search functionality allows quick expense lookup
+\end{enumerate}
+
+\textbf{Testing Capabilities:}
+This vertical prototype enables testing of:
+\begin{itemize}
+    \item Expense entry accuracy and validation
+    \item Balance calculation correctness
+    \item Financial transparency and clarity
+    \item Settlement workflow efficiency
+\end{itemize}
+
+\section{Design Highlights \& Innovation}
+
+\subsection{Visual Design Excellence}
+\begin{itemize}
+    \item \textbf{Neumorphic Aesthetics}: Modern, soft interface design that feels tactile and approachable
+    \item \textbf{Smooth Animations}: Page transitions, card animations, and micro-interactions enhance perceived performance
+    \item \textbf{Loading Screen}: Branded splash screen with animated logo and spinner for professional first impression
+    \item \textbf{Empty States}: Thoughtful empty state designs with helpful messaging and clear calls-to-action
+    \item \textbf{Color Psychology}: Strategic use of colors for urgency (red), success (green), and information (blue)
+\end{itemize}
+
+\subsection{Innovative Features}
+\begin{enumerate}
+    \item \textbf{Dynamic Fairness Calculation}: Real-time fairness score based on task completion distribution, providing transparency and motivation
+    
+    \item \textbf{Activity Feed}: Chronological feed of all household activities, creating a sense of community and accountability
+    
+    \item \textbf{Confetti Celebration}: Positive reinforcement through visual celebration when tasks are completed
+    
+    \item \textbf{Integrated Communication}: Chat functionality embedded within the task management system, reducing context switching
+    
+    \item \textbf{Smart Quick Stats}: Home page provides immediate insight into pending tasks, overdue items, expenses, and financial balance
+    
+    \item \textbf{Personalized Experience}: Dynamic greetings, date displays, and user-specific filtering create a tailored experience
+\end{enumerate}
+
+\subsection{Usability Enhancements}
+\begin{itemize}
+    \item \textbf{Keyboard Shortcuts}: Ctrl/Cmd+N for new task/expense, Esc to close modals
+    \item \textbf{Real-time Search}: Instant filtering as user types in search bars
+    \item \textbf{Toast Notifications}: Non-intrusive feedback for all user actions
+    \item \textbf{Form Validation}: Real-time field validation with clear error messages
+    \item \textbf{Responsive Design}: Seamless experience across mobile, tablet, and desktop devices
+    \item \textbf{Accessibility}: Semantic HTML, proper contrast ratios, and keyboard navigation support
+\end{itemize}
+
+\section{Interface Screenshots}
+
+\subsection{Home Dashboard}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{home-page-full.png}
+\captionof{figure}{Home dashboard showing welcome message, quick stats, today's to-do, fairness overview, calendar, and activity feed}
+\end{center}
+
+\subsection{Tasks Page}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{tasks-page.png}
+\captionof{figure}{Tasks management page with filtering options, search functionality, and task cards showing assignments and due dates}
+\end{center}
+
+\subsection{Expenses Page}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{expenses-page.png}
+\captionof{figure}{Expenses page displaying balance summary (You owe, You are owed, Net Balance) and expense list with status indicators}
+\end{center}
+
+\subsection{Chat Interface}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{chats-page.png}
+\captionof{figure}{Chat page showing conversation list with unread badges and message previews}
+\end{center}
+
+\subsection{Profile Page}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{profile-page.png}
+\captionof{figure}{Profile page with user statistics, preferences, and roommate list}
+\end{center}
+
+\section{Strengths of the System}
+
+\subsection{Comprehensive Feature Set}
+The prototype successfully implements all core requirements from Milestone 1, including task management, expense tracking, and communication features. The system goes beyond basic requirements with additional features like fairness tracking, activity feeds, and smart filtering.
+
+\subsection{Polished User Experience}
+\begin{itemize}
+    \item \textbf{Visual Consistency}: Cohesive design language throughout all pages
+    \item \textbf{Smooth Interactions}: Animations and transitions make the interface feel responsive and modern
+    \item \textbf{Clear Information Hierarchy}: Important information is prominently displayed with appropriate visual weight
+    \item \textbf{Helpful Feedback}: Toast notifications, loading states, and empty states guide users effectively
+\end{itemize}
+
+\subsection{Technical Implementation}
+\begin{itemize}
+    \item \textbf{Clean Code Structure}: Well-organized JavaScript with clear function separation
+    \item \textbf{Data Persistence}: Reliable LocalStorage implementation ensures data is not lost
+    \item \textbf{Performance}: Efficient DOM manipulation and event handling
+    \item \textbf{Maintainability}: CSS custom properties and modular code structure facilitate future updates
+\end{itemize}
+
+\subsection{Innovation \& Creativity}
+\begin{itemize}
+    \item \textbf{Fairness Algorithm}: Dynamic calculation provides unique value proposition
+    \item \textbf{Activity Feed}: Creates transparency and accountability in shared living
+    \item \textbf{Integrated Design}: Seamless combination of task management, expenses, and communication
+    \item \textbf{Visual Polish}: Attention to detail in animations, empty states, and micro-interactions
+\end{itemize}
+
+\section{Known Issues \& Limitations}
+
+\subsection{Current Limitations}
+\begin{enumerate}
+    \item \textbf{No Backend Integration}: All data is stored locally in the browser's LocalStorage, meaning data is device-specific and not shared across devices or users
+    
+    \item \textbf{No Real-time Synchronization}: Changes made by one user are not reflected for other users in real-time (would require backend infrastructure)
+    
+    \item \textbf{Limited Chat Functionality}: While the chat interface is implemented, message sending is simulated with hardcoded data rather than actual real-time messaging
+    
+    \item \textbf{No User Authentication}: The system assumes a single user session without login/logout functionality
+    
+    \item \textbf{No Data Export}: Users cannot export their data for backup or migration purposes
+    
+    \item \textbf{No Recurring Task Automation}: Recurring tasks are created but do not automatically generate new instances on schedule (would require background job processing)
+    
+    \item \textbf{No Notification System}: While reminders are mentioned in preferences, actual push notifications are not implemented (would require service worker and backend)
+    
+    \item \textbf{No Receipt Upload}: Expense tracking does not support image uploads for receipts (would require file storage)
+\end{enumerate}
+
+\subsection{Design Trade-offs}
+\begin{itemize}
+    \item \textbf{Client-side Only}: Chosen to keep the prototype simple and testable without requiring server setup, but limits multi-user functionality
+    
+    \item \textbf{Hardcoded Sample Data}: Initial data is hardcoded to demonstrate features, but real implementation would start with empty state
+    
+    \item \textbf{Desktop-First Responsive Design}: While mobile-optimized, some features (like split-view chat) are optimized for larger screens
+\end{itemize}
+
+\subsection{Future Enhancements}
+For a production version, the following would be priorities:
+\begin{itemize}
+    \item Backend API with database for multi-user support
+    \item Real-time synchronization using WebSockets
+    \item User authentication and authorization
+    \item Push notifications for task reminders
+    \item Receipt image upload and OCR for automatic expense entry
+    \item Data export/import functionality
+    \item Mobile app versions (iOS/Android)
+    \item Integration with payment apps (Venmo, PayPal)
+\end{itemize}
+
+\section{Testing \& Evaluation Readiness}
+
+\subsection{Usability Testing Support}
+The prototype is fully prepared for usability testing with:
+\begin{itemize}
+    \item \textbf{Complete Task Flows}: Both vertical prototypes support end-to-end task completion
+    \item \textbf{Realistic Data}: Sample data provides context for testing scenarios
+    \item \textbf{Error Handling}: Form validation and user feedback enable testing of error scenarios
+    \item \textbf{Multiple Interaction Methods}: Mouse, keyboard, and touch interactions are all supported
+\end{itemize}
+
+\subsection{Testing Scenarios}
+The following scenarios can be tested:
+\begin{enumerate}
+    \item \textbf{Task Creation}: Create a new task, assign it to multiple roommates, set due date and recurrence
+    \item \textbf{Task Completion}: Filter tasks, mark task as complete, observe fairness score update
+    \item \textbf{Expense Entry}: Add a new expense, split it among roommates, verify balance calculations
+    \item \textbf{Expense Settlement}: Mark expense as settled, observe balance updates
+    \item \textbf{Navigation}: Move between different sections, test search and filter functionality
+    \item \textbf{Theme Switching}: Toggle dark mode, verify theme persistence
+\end{enumerate}
+
+\section{Conclusion}
+
+RoomEase successfully demonstrates a comprehensive, high-fidelity prototype that addresses the core requirements identified in Milestone 1. The system provides a polished, innovative solution for roommate task and expense management with strong attention to user experience, visual design, and technical implementation.
+
+The prototype is ready for usability testing and evaluation, with two fully functional vertical prototypes (task management and expense tracking) that can support detailed user testing. While the current implementation is client-side only, the architecture and design decisions provide a solid foundation for future backend integration and multi-user support.
+
+The combination of comprehensive features, innovative design elements (fairness tracking, activity feed), and polished user experience positions RoomEase as a strong candidate for further development and real-world deployment.
+
+\vspace{1cm}
+
+\begin{center}
+\textit{--- End of Report ---}
+\end{center}
+
+\end{document}
+
