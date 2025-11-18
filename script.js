@@ -1,0 +1,2536 @@
+
+
+
+
+
+
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.body.classList.add('dark-mode');
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) themeToggle.checked = true;
+    }
+}
+
+
+function triggerConfetti() {
+    const duration = 2000; 
+    const particleCount = 50;
+    const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#43e97b', '#38f9d7', '#FFD700', '#FF6B6B', '#4ECDC4'];
+    
+    const container = document.createElement('div');
+    container.style.position = 'fixed';
+    container.style.top = '0';
+    container.style.left = '0';
+    container.style.width = '100%';
+    container.style.height = '100%';
+    container.style.pointerEvents = 'none';
+    container.style.zIndex = '9999';
+    container.style.overflow = 'hidden';
+    document.body.appendChild(container);
+    
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        const size = Math.random() * 8 + 4; 
+        const startX = window.innerWidth / 2;
+        const startY = window.innerHeight / 3;
+        const angle = (Math.PI * 2 * i) / particleCount;
+        const velocity = Math.random() * 200 + 150; 
+        const endX = startX + Math.cos(angle) * velocity;
+        const endY = startY + Math.sin(angle) * velocity + Math.random() * 100;
+        const rotation = Math.random() * 360;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        particle.style.position = 'absolute';
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.backgroundColor = color;
+        particle.style.left = `${startX}px`;
+        particle.style.top = `${startY}px`;
+        particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        particle.style.opacity = '1';
+        particle.style.transform = `rotate(0deg)`;
+        particle.style.transition = `all ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+        
+        container.appendChild(particle);
+        
+        
+        requestAnimationFrame(() => {
+            particle.style.left = `${endX}px`;
+            particle.style.top = `${endY}px`;
+            particle.style.opacity = '0';
+            particle.style.transform = `rotate(${rotation}deg)`;
+        });
+    }
+    
+    
+    setTimeout(() => {
+        document.body.removeChild(container);
+    }, duration);
+}
+
+function setupThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    if (themeToggle) {
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+                showToast('Dark mode enabled');
+            } else {
+                document.body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+                showToast('Light mode enabled');
+            }
+        });
+    }
+}
+
+
+const roommates = [
+    { id: 1, name: "Janvi Chauhan", initials: "JC", color: "linear-gradient(135deg, #356496)" },
+    { id: 2, name: "Aranya Chaudhary", initials: "AC", color: "linear-gradient(135deg, #d86060)" },
+    { id: 3, name: "Tamilla Zeynalova", initials: "TZ", color: "linear-gradient(135deg, #169530)" },
+    { id: 4, name: "Aaish Ahmed", initials: "AA", color: "linear-gradient(135deg, #e49449)" },
+    { id: 5, name: "Rami Abu Sultan", initials: "RS", color: "linear-gradient(135deg, #d768ba)" }
+];
+
+
+const currentUser = "Janvi Chauhan";
+const currentUserId = 1; // Janvi's ID
+
+
+let tasks = [];
+
+
+function loadTasks() {
+    
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const twoDays = new Date(today);
+    twoDays.setDate(twoDays.getDate() + 2);
+    const threeDays = new Date(today);
+    threeDays.setDate(threeDays.getDate() + 3);
+    const nextWeek = new Date(today);
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    tasks = [
+        { id: 1, title: "Take out garbage ♻️", description: "Take bins to curb by 7 PM", assignees: [4,5], dueDate: today.toISOString().split('T')[0], status: "pending", recurrence: "weekly", urgency: "high" },
+        { id: 2, title: "Clean kitchen🧹", description: "Deep clean kitchen counters and stove", assignees: [2], dueDate: today.toISOString().split('T')[0], status: "pending", recurrence: "one-time", urgency: "moderate" },
+        { id: 3, title: "Vacuum living room🧹", description: "Deep Clean the living room", assignees: [1, 3], dueDate: tomorrow.toISOString().split('T')[0], status: "pending", recurrence: "one-time", urgency: null },
+        { id: 4, title: "Buy groceries🛒", description: "Get milk, bread, eggs, and vegetables", assignees: [1, 3, 4], dueDate: twoDays.toISOString().split('T')[0], status: "pending", recurrence: "one-time", urgency: "low" },
+        { id: 5, title: "Water plants🪴", description: "Water all indoor plants", assignees: [5], dueDate: nextWeek.toISOString().split('T')[0], status: "completed", recurrence: "weekly", urgency: null },
+        { id: 6, title: "Clean bathroom🚻", description: "Scrub shower and clean mirrors", assignees: [2, 4, 3], dueDate: yesterday.toISOString().split('T')[0], status: "pending", recurrence: "one-time", urgency: "high" },
+        { id: 7, title: "Pay rent💰", description: "", assignees: [2], dueDate: threeDays.toISOString().split('T')[0], status: "pending", recurrence: "monthly", urgency: "high" },
+        { id: 8, title: "Organize pantry🍞", description: "", assignees: [1], dueDate: nextWeek.toISOString().split('T')[0], status: "pending", recurrence: "one-time", urgency: null },
+        { id: 9, title: "Shovel driveway❄️", description: "", assignees: [5], dueDate: nextWeek.toISOString().split('T')[0], status: "pending", recurrence: "one-time", urgency: "moderate" }
+    ];
+    saveTasks();
+}
+
+
+function saveTasks() {
+    localStorage.setItem('roommateTasks', JSON.stringify(tasks));
+}
+
+
+let expenses = [];
+
+
+function loadExpenses() {
+    const stored = localStorage.getItem('roommateExpenses');
+    if (stored) {
+        expenses = JSON.parse(stored);
+    } else {
+        
+        expenses = [
+            { id: 1, description: "Groceries at Metro🛒", amount: 87.50, payer: "Janvi Chauhan", participants: ["Janvi Chauhan", "Aranya Chaudhary", "Tamilla Zeynalova", "Aaish Ahmed", "Rami Abu Sultan"], date: "2024-11-15", status: "Pending" },
+            { id: 2, description: "Internet Bill🧾", amount: 60.00, payer: "Aranya Chaudhary", participants: ["Janvi Chauhan", "Aranya Chaudhary", "Tamilla Zeynalova", "Aaish Ahmed", "Rami Abu Sultan"], date: "2024-11-14", status: "Settled" },
+            { id: 3, description: "Cleaning Supplies🛒", amount: 42.30, payer: "Tamilla Zeynalova", participants: ["Janvi Chauhan", "Aranya Chaudhary", "Tamilla Zeynalova", "Aaish Ahmed", "Rami Abu Sultan"], date: "2024-11-13", status: "Pending" },
+            { id: 4, description: "House Party Snacks🛒", amount: 95.20, payer: "Janvi Chauhan", participants: ["Janvi Chauhan", "Aranya Chaudhary", "Tamilla Zeynalova", "Aaish Ahmed", "Rami Abu Sultan"], date: "2024-11-12", status: "Settled" },
+            { id: 5, description: "Electricity Bill🧾", amount: 120.00, payer: "Aaish Ahmed", participants: ["Janvi Chauhan", "Aranya Chaudhary", "Tamilla Zeynalova", "Aaish Ahmed", "Rami Abu Sultan"], date: "2024-11-10", status: "Pending" },
+            { id: 6, description: "Shared Uber🚕", amount: 28.50, payer: "Aranya Chaudhary", participants: ["Janvi Chauhan", "Aranya Chaudhary", "Tamilla Zeynalova", "Rami Abu Sultan"], date: "2024-11-09", status: "Settled" }
+        ];
+        saveExpenses()
+    }
+}
+
+
+function saveExpenses() {
+    localStorage.setItem('roommateExpenses', JSON.stringify(expenses));
+}
+
+
+const activityFeed = {
+    today: [
+        { id: 1, type: 'task', title: 'Task completed', description: 'Tamilla completed "Clean kitchen🧹"', time: '2 hours ago', status: 'Done' },
+        { id: 2, type: 'expense', title: 'New expense', description: 'Aranya added "Groceries - $87.50"💰', time: '4 hours ago', status: 'Pending' }
+    ],
+    yesterday: [
+        { id: 3, type: 'chat', title: 'New message', description: 'Aaish: "Anyone want to order pizza🍕?"', time: 'Yesterday 8:30 PM' },
+        { id: 4, type: 'task', title: 'Task assigned', description: 'You were assigned "Take out garbage♻️"', time: 'Yesterday 6:00 PM', status: 'Pending' },
+        { id: 5, type: 'task', title: 'Task completed', description: 'Rami completed "Clean bathroom🚻', time: 'Yesterday 4:30 PM', status: 'Done' }
+    ],
+    thisWeek: [
+        { id: 5, type: 'expense', title: 'Expense settled', description: 'Internet bill was marked as settled🧾', time: '3 days ago', status: 'Settled' },
+        { id: 6, type: 'task', title: 'Recurring task', description: 'Weekly cleaning rotation updated🧹', time: '4 days ago' }
+    ]
+};
+
+
+let conversations = [
+    { id: 1, name: 'Good Vibes only', icon: 'fa-users', lastMessage: 'Aaish: Anyone free this weekend?', time: '10:30 AM', unread: 2, participants: [1, 2, 3, 4, 5], type: 'group' },
+    { id: 2, name: 'Aranya Chaudhary', icon: 'fa-user', lastMessage: 'You: Sounds good👍🏻!', time: 'Yesterday', unread: 0, participants: [1, 2], type: 'direct' },
+    { id: 3, name: 'Tamilla Zeynalova', icon: 'fa-user', lastMessage: 'Tamilla: Thanks for cleaning!✌🏻', time: '2 days ago', unread: 0, participants: [1, 3], type: 'direct' },
+    { id: 4, name: 'Bills & Expenses', icon: 'fa-dollar-sign', lastMessage: 'You: I paid the electric bill', time: '3 days ago', unread: 1, participants: [1, 2, 3, 4], type: 'group' }
+];
+
+
+let chatSettings = {};
+
+
+let messages = {
+    1: [ 
+        { id: 1, sender: 2, text: 'Hey everyone! Just a reminder about the house meeting tomorrow at 7 PM.', time: '9:15 AM', own: false },
+        { id: 2, sender: 1, text: 'Thanks for the reminder! I\'ll be there.👍🏻', time: '9:20 AM', own: true },
+        { id: 3, sender: 3, text: 'Count me in too!', time: '9:45 AM', own: false },
+        { id: 4, sender: 4, text: 'Anyone free this weekend? Thinking of organizing a house cleanup.', time: '10:30 AM', own: false },
+        { id: 5, sender: 5, text: 'I can help out on Saturday morning.', time: '10:45 AM', own: false }
+    ],
+    2: [ 
+        { id: 1, sender: 2, text: 'Hey! Are you free to help me move the couch later?', time: '2:00 PM', own: false },
+        { id: 2, sender: 1, text: 'Sure! What time works for you?', time: '2:15 PM', own: true },
+        { id: 3, sender: 2, text: 'How about 5 PM?', time: '2:20 PM', own: false },
+        { id: 4, sender: 1, text: 'Sounds good!👍🏻', time: '2:22 PM', own: true }
+    ],
+    3: [ 
+        { id: 1, sender: 3, text: 'Thanks for cleaning the kitchen yesterday!', time: '8:00 AM', own: false },
+        { id: 2, sender: 1, text: 'No problem! Happy to help.🫶', time: '8:30 AM', own: true },
+        { id: 3, sender: 3, text: 'Let me know if you need help with anything.', time: '8:45 AM', own: false }
+    ],
+    4: [ 
+        { id: 1, sender: 2, text: 'I paid the internet bill. It was $60 this month.', time: '9:00 AM', own: false },
+        { id: 2, sender: 1, text: 'Thanks! I paid the electric bill yesterday, $120.', time: '10:00 AM', own: true },
+        { id: 3, sender: 3, text: 'I\'ll handle the water bill this week.', time: '11:00 AM', own: false }
+    ]
+};
+
+
+let currentPage = 'home';
+let currentFilter = 'my';
+let currentConversation = null;
+let editingExpenseId = null; 
+let editingTaskId = null; 
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Initialize theme first (before loading screen)
+    initializeTheme();
+    
+    // Show loading screen initially
+    showLoadingScreen();
+    
+    // Initialize app in background
+    setupThemeToggle();
+    loadTasks(); 
+    loadExpenses(); 
+    initializeApp();
+    setupNavigation();
+    setupQuickActions();
+    setupModals();
+    setupTaskModal(); 
+    setupExpenseModal(); 
+    setupTaskFilters();
+    setupChats();
+    setupQuickAdd();
+    renderHomePage();
+    renderTasksPage();
+    renderExpensesPage();
+    renderChatsPage();
+    renderCalendar(); 
+    updateTaskCountBadges();
+    setupKeyboardShortcuts();
+    setupSearchFunctionality();
+    setupWelcomeMessage();
+    renderQuickStats();
+    
+    // Hide loading screen after a minimum delay and when content is ready
+    setTimeout(() => {
+        hideLoadingScreen();
+        // Animate cards after loading screen is hidden
+        setTimeout(() => {
+            animateCardsOnLoad();
+        }, 300);
+    }, 1500); // Minimum 1.5 seconds for smooth experience
+});
+
+function initializeApp() {
+    console.log('🏠 Roommate Task Organizer initialized');
+}
+
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        loadingScreen.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const appContainer = document.querySelector('.app-container');
+    
+    if (loadingScreen) {
+        loadingScreen.classList.remove('active');
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            document.body.style.overflow = '';
+            if (appContainer) {
+                appContainer.classList.add('loaded');
+            }
+        }, 500); // Wait for fade out animation
+    } else if (appContainer) {
+        appContainer.classList.add('loaded');
+    }
+}
+
+function setupNavigation() {
+    const navButtons = document.querySelectorAll('.nav-btn');
+    
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const page = btn.dataset.page;
+            switchPage(page);
+            
+            
+            navButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+}
+
+function switchPage(pageName) {
+    currentPage = pageName;
+    
+    const currentPageEl = document.querySelector('.page.active');
+    const targetPage = document.getElementById(`${pageName}-page`);
+    
+    if (currentPageEl && targetPage && currentPageEl !== targetPage) {
+        // Smooth page transition
+        currentPageEl.style.opacity = '0';
+        currentPageEl.style.transform = 'translateY(-20px) scale(0.98)';
+        
+        setTimeout(() => {
+            currentPageEl.classList.remove('active');
+            targetPage.classList.add('active');
+            
+            // Trigger reflow to restart animation
+            targetPage.offsetHeight;
+            
+            // Animate new page in
+            setTimeout(() => {
+                targetPage.style.opacity = '1';
+                targetPage.style.transform = 'translateY(0) scale(1)';
+            }, 50);
+        }, 200);
+    } else if (targetPage && !targetPage.classList.contains('active')) {
+        targetPage.classList.add('active');
+    }
+    
+    // Update relevant displays when switching pages
+    if (pageName === 'home') {
+        updateFairnessDisplay();
+        updateTodaysTodo();
+        renderQuickStats();
+        setTimeout(() => animateCardsOnLoad(), 300);
+    } else if (pageName === 'tasks') {
+        updateTaskCountBadges();
+        setTimeout(() => animateListItems(), 300);
+    } else if (pageName === 'expenses') {
+        updateBalanceSummary();
+        setTimeout(() => animateListItems(), 300);
+    }
+}
+
+function animateListItems() {
+    const items = document.querySelectorAll('.task-card, .expense-card, .feed-item');
+    items.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            item.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 50);
+    });
+}
+
+
+function calculateFairnessScore() {
+    const completedTasks = tasks.filter(t => t.status === 'completed');
+    if (completedTasks.length === 0) return 75; // Default if no tasks
+    
+    const totalCompleted = completedTasks.length;
+    const userCompleted = completedTasks.filter(t => 
+        t.assignees.includes(currentUserId)
+    ).length;
+    
+    const expectedShare = totalCompleted / roommates.length;
+    if (expectedShare === 0) return 75;
+    
+    const fairnessRatio = userCompleted / expectedShare;
+    const score = Math.min(100, Math.max(0, Math.round(fairnessRatio * 100)));
+    
+    return score;
+}
+
+function updateFairnessDisplay() {
+    const score = calculateFairnessScore();
+    const fairnessCircle = document.getElementById('fairness-circle');
+    const ringValue = document.querySelector('.ring-value');
+    const ringText = document.querySelector('.ring-text');
+    
+    if (fairnessCircle && ringValue && ringText) {
+        const circumference = 2 * Math.PI * 72; // radius = 72
+        const offset = circumference - (score / 100) * circumference;
+        
+        fairnessCircle.style.strokeDashoffset = offset;
+        ringValue.textContent = `${score}%`;
+        
+        let text = 'Fair';
+        if (score >= 90) text = 'Excellent';
+        else if (score >= 75) text = 'Fair';
+        else if (score >= 50) text = 'Below Avg';
+        else text = 'Unfair';
+        
+        ringText.textContent = text;
+    }
+}
+
+function setupWelcomeMessage() {
+    const greetingEl = document.getElementById('greeting-text');
+    const dateEl = document.getElementById('date-display');
+    
+    if (greetingEl) {
+        const hour = new Date().getHours();
+        let greeting = 'Hello';
+        if (hour < 12) greeting = 'Good morning';
+        else if (hour < 17) greeting = 'Good afternoon';
+        else greeting = 'Good evening';
+        
+        greetingEl.textContent = `${greeting}, Janvi! 👋`;
+    }
+    
+    if (dateEl) {
+        const today = new Date();
+        const options = { weekday: 'long', month: 'long', day: 'numeric' };
+        dateEl.textContent = today.toLocaleDateString('en-US', options);
+    }
+}
+
+function renderQuickStats() {
+    const statsBar = document.getElementById('quick-stats-bar');
+    if (!statsBar) return;
+    
+    const pendingTasks = tasks.filter(t => 
+        t.status !== 'completed' && t.assignees.includes(currentUserId)
+    ).length;
+    
+    const overdueTasks = tasks.filter(t => {
+        if (t.status === 'completed' || !t.assignees.includes(currentUserId)) return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const taskDate = new Date(t.dueDate);
+        taskDate.setHours(0, 0, 0, 0);
+        return taskDate < today;
+    }).length;
+    
+    const pendingExpenses = expenses.filter(e => 
+        e.status === 'Pending' && e.participants.includes(currentUser)
+    ).length;
+    
+    const balances = calculateBalances();
+    const netBalance = balances.youAreOwed - balances.youOwe;
+    
+    statsBar.innerHTML = `
+        <div class="quick-stat-item">
+            <div class="quick-stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <div class="quick-stat-content">
+                <p class="quick-stat-value">${pendingTasks}</p>
+                <p class="quick-stat-label">Pending Tasks</p>
+            </div>
+        </div>
+        <div class="quick-stat-item ${overdueTasks > 0 ? 'urgent' : ''}">
+            <div class="quick-stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="quick-stat-content">
+                <p class="quick-stat-value">${overdueTasks}</p>
+                <p class="quick-stat-label">Overdue</p>
+            </div>
+        </div>
+        <div class="quick-stat-item">
+            <div class="quick-stat-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="quick-stat-content">
+                <p class="quick-stat-value">${pendingExpenses}</p>
+                <p class="quick-stat-label">Pending Expenses</p>
+            </div>
+        </div>
+        <div class="quick-stat-item ${netBalance >= 0 ? 'positive' : 'negative'}">
+            <div class="quick-stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="quick-stat-content">
+                <p class="quick-stat-value">${netBalance >= 0 ? '+' : ''}$${Math.abs(netBalance).toFixed(0)}</p>
+                <p class="quick-stat-label">Net Balance</p>
+            </div>
+        </div>
+    `;
+}
+
+function animateCardsOnLoad() {
+    const cards = document.querySelectorAll('.card-animate');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px) scale(0.95)';
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0) scale(1)';
+        }, index * 100);
+    });
+    
+    // Animate list items with stagger
+    animateListItems();
+}
+
+function updateTodaysTodo() {
+    const container = document.getElementById('todays-todo-content');
+    if (!container) return;
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const todayTasks = tasks.filter(task => {
+        if (task.status === 'completed') return false;
+        const taskDate = new Date(task.dueDate);
+        taskDate.setHours(0, 0, 0, 0);
+        return taskDate.getTime() === today.getTime() && task.assignees.includes(currentUserId);
+    });
+    
+    if (todayTasks.length === 0) {
+        container.innerHTML = `
+            <div class="empty-todo-state">
+                <i class="fas fa-check-circle" style="font-size: 2.5rem; color: var(--status-done); margin-bottom: 0.5rem;"></i>
+                <p style="color: var(--text-secondary); font-weight: 500;">All caught up!</p>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">No tasks due today</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const nextTask = todayTasks[0];
+    const assignee = roommates.find(r => r.id === nextTask.assignees[0]);
+    const taskDate = new Date(nextTask.dueDate);
+    const timeString = taskDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    
+    container.innerHTML = `
+        <div class="next-task">
+            <i class="fas fa-clock icon-accent"></i>
+            <div class="task-info">
+                <p class="task-title">${nextTask.title}</p>
+                <p class="task-meta">${timeString} • ${todayTasks.length} ${todayTasks.length === 1 ? 'task' : 'tasks'} today</p>
+            </div>
+        </div>
+    `;
+}
+
+function renderHomePage() {
+    const feedContainer = document.getElementById('feed-container');
+    if (!feedContainer) return;
+    
+    // Update fairness score
+    updateFairnessDisplay();
+    
+    // Update today's todo
+    updateTodaysTodo();
+    
+    // Update quick stats
+    renderQuickStats();
+    
+    let feedHTML = '';
+    
+    
+    if (activityFeed.today.length > 0) {
+        feedHTML += '<div class="feed-section">';
+        feedHTML += '<h4 class="feed-section-title">Today</h4>';
+        activityFeed.today.forEach(item => {
+            feedHTML += createFeedItem(item);
+        });
+        feedHTML += '</div>';
+    }
+    
+    
+    if (activityFeed.yesterday.length > 0) {
+        feedHTML += '<div class="feed-section">';
+        feedHTML += '<h4 class="feed-section-title">Yesterday</h4>';
+        activityFeed.yesterday.forEach(item => {
+            feedHTML += createFeedItem(item);
+        });
+        feedHTML += '</div>';
+    }
+    
+    
+    if (activityFeed.thisWeek.length > 0) {
+        feedHTML += '<div class="feed-section">';
+        feedHTML += '<h4 class="feed-section-title">This Week</h4>';
+        activityFeed.thisWeek.forEach(item => {
+            feedHTML += createFeedItem(item);
+        });
+        feedHTML += '</div>';
+    }
+    
+    feedContainer.innerHTML = feedHTML;
+}
+
+function createFeedItem(item) {
+    const iconMap = {
+        task: '<img src="icons/task.svg" alt="Task" class="custom-icon">',
+        expense: '<img src="icons/expenses.svg" alt="Expense" class="custom-icon">',
+        chat: '<img src="icons/chats.svg" alt="Chat" class="custom-icon">'
+    };
+    
+    const statusPill = item.status ? `<span class="pill ${item.status.toLowerCase()}">${item.status}</span>` : '';
+    
+    return `
+        <div class="feed-item">
+            <div class="feed-icon ${item.type}">
+                ${iconMap[item.type]}
+            </div>
+            <div class="feed-content">
+                <p class="feed-title">${item.title}</p>
+                <p class="feed-description">${item.description}</p>
+                <div class="feed-meta">
+                    <span>${item.time}</span>
+                    ${statusPill}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+
+function setupQuickActions() {
+    const actionButtons = document.querySelectorAll('.action-btn[data-action]');
+    
+    actionButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const action = btn.dataset.action;
+            handleQuickAction(action);
+        });
+    });
+}
+
+function handleQuickAction(action) {
+    const modal = document.getElementById('action-modal');
+    const modalTitle = document.getElementById('modal-title');
+    
+    if (action === 'new-task') {
+        modalTitle.textContent = 'Create New Task';
+    } else if (action === 'split-expense') {
+        modalTitle.textContent = 'Split Expense';
+    } else if (action === 'message') {
+        modalTitle.textContent = 'New Message';
+    }
+    
+    modal.classList.add('active');
+}
+
+
+function setupModals() {
+    const modal = document.getElementById('action-modal');
+    const closeBtn = document.getElementById('close-modal');
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+    }
+    
+    
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    }
+}
+
+
+function renderCalendar() {
+    const container = document.getElementById('calendar-days-container');
+    if (!container) return;
+    
+    const today = new Date();
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
+    const currentDay = today.getDate();
+    
+    
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
+    
+    let calendarHTML = '';
+    let dayIndex = 0;
+    
+    
+    for (let i = firstDay - 1; i >= 0; i--) {
+        const day = daysInPrevMonth - i;
+        calendarHTML += createDayCell(day, false, false, true);
+        dayIndex++;
+    }
+    
+    
+    for (let day = 1; day <= daysInMonth; day++) {
+        const isToday = day === currentDay;
+        
+        
+        const hasEvent = tasks.some(task => {
+            const taskDate = new Date(task.dueDate);
+            return taskDate.getDate() === day && 
+                   taskDate.getMonth() === currentMonth && 
+                   taskDate.getFullYear() === currentYear;
+        });
+        
+        calendarHTML += createDayCell(day, isToday, hasEvent, false);
+        dayIndex++;
+    }
+    
+    
+    const totalCells = Math.ceil(dayIndex / 7) * 7;
+    const remainingCells = totalCells - dayIndex;
+    
+    
+    for (let day = 1; day <= remainingCells; day++) {
+        calendarHTML += createDayCell(day, false, false, true);
+        dayIndex++;
+    }
+    
+    container.innerHTML = calendarHTML;
+}
+
+
+function createDayCell(dayNum, isToday, hasEvent, isOtherMonth) {
+    const todayClass = isToday ? 'today' : '';
+    const otherMonthClass = isOtherMonth ? 'other-month' : '';
+    const eventDot = hasEvent && !isOtherMonth ? '<div class="day-dot"></div>' : '';
+    
+    return `
+        <div class="calendar-day ${todayClass} ${otherMonthClass}">
+            <span class="day-num">${dayNum}</span>
+            ${eventDot}
+        </div>
+    `;
+}
+
+
+function setupTaskFilters() {
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            currentFilter = tab.dataset.filter;
+            
+            
+            filterTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            
+            renderTasksPage();
+        });
+    });
+}
+
+
+function renderTasksPage() {
+    const taskListContainer = document.getElementById('task-list-container');
+    if (!taskListContainer) return;
+    
+    // Check if there's an active search
+    const searchInput = document.getElementById('task-search-input');
+    if (searchInput && searchInput.value.trim()) {
+        filterTasksBySearch(searchInput.value);
+        return;
+    }
+    
+    let filteredTasks = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    
+    if (currentFilter === 'my') {
+        
+        filteredTasks = tasks.filter(task => task.assignees.includes(1) && task.status !== 'completed');
+    } else if (currentFilter === 'today') {
+        
+        filteredTasks = tasks.filter(task => {
+            if (task.status === 'completed') return false;
+            const taskDate = new Date(task.dueDate);
+            taskDate.setHours(0, 0, 0, 0);
+            return taskDate.getTime() === today.getTime();
+        });
+    } else if (currentFilter === 'all') {
+        
+        filteredTasks = tasks.filter(task => task.status !== 'completed');
+    } else if (currentFilter === 'completed') {
+        
+        filteredTasks = tasks.filter(task => task.status === 'completed');
+    }
+    
+    let tasksHTML = '';
+    
+    if (filteredTasks.length === 0) {
+        const emptyMessage = currentFilter === 'completed' 
+            ? 'No completed tasks yet' 
+            : 'No tasks found';
+        const emptySubtext = currentFilter === 'completed'
+            ? 'Complete tasks to see them here'
+            : 'Click "Add Task" to create your first task';
+            
+        tasksHTML = `
+            <div class="card" style="text-align: center; padding: 3rem 1.5rem; grid-column: 1 / -1;">
+                <i class="fas fa-list-check" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--text-secondary); margin-bottom: 0.5rem;">${emptyMessage}</h3>
+                <p style="color: var(--text-muted);">${emptySubtext}</p>
+            </div>
+        `;
+    } else {
+        filteredTasks.forEach(task => {
+            
+            let assigneesHTML = '';
+            task.assignees.forEach(assigneeId => {
+                const assignee = roommates.find(r => r.id === assigneeId);
+                assigneesHTML += `
+                    <div class="task-assignee">
+                        <div class="avatar small" style="background: ${assignee.color};">${assignee.initials}</div>
+                        <span>${assignee.name}</span>
+                    </div>
+                `;
+            });
+            
+            const recurringIcon = task.recurrence && task.recurrence !== 'one-time' ? '<i class="fas fa-rotate" style="color: var(--accent-active); font-size: 0.9rem;"></i>' : '';
+            
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const taskDate = new Date(task.dueDate);
+            taskDate.setHours(0, 0, 0, 0);
+            
+            let dateLabel = '';
+            let pillClass = '';
+            
+            if (task.status === 'completed') {
+                dateLabel = 'Completed';
+                pillClass = 'done';
+            } else if (taskDate < today) {
+                dateLabel = 'Overdue';
+                pillClass = 'overdue';
+            } else if (taskDate.getTime() === today.getTime()) {
+                dateLabel = 'Today';
+                pillClass = 'today';
+            } else {
+                const diffTime = taskDate - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if (diffDays === 1) {
+                    dateLabel = 'Tomorrow';
+                    pillClass = 'pending';
+                } else if (diffDays <= 7) {
+                    dateLabel = `In ${diffDays} days`;
+                    pillClass = 'pending';
+                } else {
+                    dateLabel = formatDateDisplay(task.dueDate);
+                    pillClass = 'pending';
+                }
+            }
+            
+            
+            const completedClass = task.status === 'completed' ? 'task-completed' : '';
+            const titleStyle = task.status === 'completed' ? 'style="text-decoration: line-through; opacity: 0.7;"' : '';
+            
+            
+            const descriptionHTML = task.description ? `<p class="task-description">${task.description}</p>` : '';
+            
+            
+            let urgencyBadge = '';
+            if (task.urgency) {
+                const urgencyConfig = {
+                    'high': { label: 'High', class: 'urgency-high' },
+                    'moderate': { label: 'Moderate', class: 'urgency-moderate' },
+                    'low': { label: 'Low', class: 'urgency-low' }
+                };
+                const config = urgencyConfig[task.urgency.toLowerCase()];
+                if (config) {
+                    urgencyBadge = `<span class="pill ${config.class}">${config.label}</span>`;
+                }
+            }
+            
+            tasksHTML += `
+                <div class="task-card ${completedClass}" data-task-id="${task.id}">
+                    <div class="task-header">
+                        <div class="task-main">
+                            <h4 class="task-card-title" ${titleStyle}>${task.title}</h4>
+                            ${descriptionHTML}
+                            ${assigneesHTML}
+                        </div>
+                        ${recurringIcon}
+                    </div>
+                    <div class="task-footer">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="pill ${pillClass}">${dateLabel}</span>
+                            ${urgencyBadge}
+                        </div>
+                        <div class="task-actions">
+                            <i class="fas ${task.status === 'completed' ? 'fa-rotate-left' : 'fa-check'}" 
+                               onclick="toggleTaskCompleted(${task.id})" 
+                               title="${task.status === 'completed' ? 'Mark as pending' : 'Mark as completed'}"
+                               style="cursor: pointer;"></i>
+                            <i class="fas fa-edit" onclick="openTaskModal(${task.id})" title="Edit task" style="cursor: pointer;"></i>
+                            <i class="fas fa-trash" onclick="deleteTask(${task.id})" title="Delete task" style="cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    taskListContainer.innerHTML = tasksHTML;
+}
+
+
+function setupTaskModal() {
+    const taskModal = document.getElementById('task-modal');
+    const addTaskBtn = document.getElementById('main-add-task-btn');
+    const closeTaskModalBtn = document.getElementById('close-task-modal');
+    const cancelTaskBtn = document.getElementById('cancel-task-btn');
+    const taskForm = document.getElementById('task-form');
+    
+    if (!taskModal) return;
+    
+    
+    if (addTaskBtn) {
+        addTaskBtn.addEventListener('click', () => {
+            openTaskModal();
+        });
+    }
+    
+    
+    if (closeTaskModalBtn) {
+        closeTaskModalBtn.addEventListener('click', () => {
+            closeTaskModal();
+        });
+    }
+    
+    if (cancelTaskBtn) {
+        cancelTaskBtn.addEventListener('click', () => {
+            closeTaskModal();
+        });
+    }
+    
+    
+    if (taskModal) {
+        taskModal.addEventListener('click', (e) => {
+            if (e.target === taskModal) {
+                closeTaskModal();
+            }
+        });
+    }
+    
+    
+    if (taskForm) {
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            saveTask();
+        });
+    }
+}
+
+
+function openTaskModal(taskId = null) {
+    const taskModal = document.getElementById('task-modal');
+    const modalTitle = document.getElementById('task-modal-title');
+    const form = document.getElementById('task-form');
+    
+    if (!taskModal || !modalTitle || !form) return;
+    
+    clearFieldErrors(); // Clear any previous errors
+    editingTaskId = taskId;
+    
+    if (taskId) {
+        
+        modalTitle.textContent = 'Edit Task';
+        const task = tasks.find(t => t.id === taskId);
+        if (task) {
+            fillTaskForm(task);
+        }
+    } else {
+        
+        modalTitle.textContent = 'Add New Task';
+        form.reset();
+        
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('task-due-date').value = today;
+        
+        document.querySelectorAll('input[name="task-assignees"]').forEach(cb => {
+            cb.checked = false;
+        });
+    }
+    
+    taskModal.classList.add('active');
+}
+
+
+function closeTaskModal() {
+    const taskModal = document.getElementById('task-modal');
+    if (taskModal) {
+        taskModal.classList.remove('active');
+    }
+    editingTaskId = null;
+    const form = document.getElementById('task-form');
+    if (form) {
+        form.reset();
+    }
+}
+
+
+function fillTaskForm(task) {
+    document.getElementById('task-title').value = task.title;
+    document.getElementById('task-description').value = task.description || '';
+    document.getElementById('task-due-date').value = task.dueDate;
+    document.getElementById('task-recurrence').value = task.recurrence || 'one-time';
+    document.getElementById('task-urgency').value = task.urgency || '';
+    
+    
+    document.querySelectorAll('input[name="task-assignees"]').forEach(cb => {
+        cb.checked = task.assignees.includes(parseInt(cb.value));
+    });
+}
+
+
+function saveTask() {
+    const title = document.getElementById('task-title').value.trim();
+    const description = document.getElementById('task-description').value.trim();
+    const dueDate = document.getElementById('task-due-date').value;
+    const recurrence = document.getElementById('task-recurrence').value;
+    const urgency = document.getElementById('task-urgency').value;
+    
+    
+    const assignees = [];
+    document.querySelectorAll('input[name="task-assignees"]:checked').forEach(cb => {
+        assignees.push(parseInt(cb.value));
+    });
+    
+    
+    // Enhanced validation
+    if (!title || !title.trim()) {
+        showFieldError('task-title', 'Task title is required');
+        showToast('Please enter a task title');
+        return;
+    }
+    
+    if (title.length > 100) {
+        showFieldError('task-title', 'Task title must be 100 characters or less');
+        showToast('Task title is too long (max 100 characters)');
+        return;
+    }
+    
+    if (!dueDate) {
+        showFieldError('task-due-date', 'Due date is required');
+        showToast('Please select a due date');
+        return;
+    }
+    
+    // Check if date is too far in the future (optional warning)
+    const selectedDate = new Date(dueDate);
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() + 2);
+    if (selectedDate > maxDate) {
+        if (!confirm('Due date is more than 2 years away. Continue?')) {
+            return;
+        }
+    }
+    
+    if (assignees.length === 0) {
+        showToast('Please select at least one assignee');
+        return;
+    }
+    
+    clearFieldErrors();
+    
+    if (editingTaskId) {
+        
+        editTask(editingTaskId, { title, description, assignees, dueDate, recurrence, urgency });
+    } else {
+        
+        addTask({ title, description, assignees, dueDate, recurrence, urgency });
+    }
+    
+    
+    closeTaskModal();
+}
+
+
+function addTask(taskData) {
+    const newTask = {
+        id: tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1,
+        title: taskData.title,
+        description: taskData.description,
+        assignees: taskData.assignees,
+        dueDate: taskData.dueDate,
+        status: 'pending',
+        recurring: false,
+        recurrence: taskData.recurrence,
+        urgency: taskData.urgency || null
+    };
+    
+    tasks.push(newTask);
+    saveTasks();
+    renderTasksPage();
+    updateTaskCountBadges();
+    updateFairnessDisplay();
+    updateTodaysTodo();
+    renderQuickStats();
+    
+    showToast('Task added successfully!');
+}
+
+
+function editTask(taskId, updatedData) {
+    const taskIndex = tasks.findIndex(t => t.id === taskId);
+    if (taskIndex !== -1) {
+        tasks[taskIndex] = {
+            ...tasks[taskIndex],
+            title: updatedData.title,
+            description: updatedData.description,
+            assignees: updatedData.assignees,
+            dueDate: updatedData.dueDate,
+            recurrence: updatedData.recurrence,
+            urgency: updatedData.urgency || null
+        };
+        saveTasks();
+        renderTasksPage();
+        updateTaskCountBadges();
+        updateFairnessDisplay();
+        updateTodaysTodo();
+        renderQuickStats();
+        showToast('Task updated successfully!');
+    }
+}
+
+
+function deleteTask(taskId) {
+    if (confirm('Are you sure you want to delete this task?')) {
+        tasks = tasks.filter(t => t.id !== taskId);
+        saveTasks();
+        renderTasksPage();
+        updateTaskCountBadges();
+        updateFairnessDisplay();
+        updateTodaysTodo();
+        renderQuickStats();
+        showToast('Task deleted successfully!');
+    }
+}
+
+
+function toggleTaskCompleted(taskId) {
+    const taskIndex = tasks.findIndex(t => t.id === taskId);
+    if (taskIndex !== -1) {
+        const currentStatus = tasks[taskIndex].status;
+        tasks[taskIndex].status = currentStatus === 'completed' ? 'pending' : 'completed';
+        saveTasks();
+        renderTasksPage();
+        updateTaskCountBadges();
+        updateFairnessDisplay();
+        updateTodaysTodo();
+        renderQuickStats();
+        const newStatus = tasks[taskIndex].status === 'completed' ? 'completed' : 'pending';
+        showToast(`Task marked as ${newStatus}!`);
+        if (newStatus === 'completed') {
+            triggerConfetti();
+        }
+    }
+}
+
+function setupQuickAdd() {
+    const addTaskBtn = document.getElementById('add-task-btn');
+    const quickTaskInput = document.getElementById('quick-task-input');
+    
+    if (addTaskBtn && quickTaskInput) {
+        addTaskBtn.addEventListener('click', () => {
+            const taskName = quickTaskInput.value.trim();
+            if (taskName) {
+                
+                const today = new Date().toISOString().split('T')[0];
+                addTask({
+                    title: taskName,
+                    assignees: [1], 
+                    dueDate: today
+                });
+                quickTaskInput.value = '';
+            } else {
+                showToast('Please enter a task name');
+            }
+        });
+        
+        quickTaskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTaskBtn.click();
+            }
+        });
+    }
+}
+
+
+function setupExpenseModal() {
+    const expenseModal = document.getElementById('expense-modal');
+    const addExpenseBtn = document.getElementById('add-expense-btn');
+    const closeExpenseModalBtn = document.getElementById('close-expense-modal');
+    const cancelExpenseBtn = document.getElementById('cancel-expense-btn');
+    const expenseForm = document.getElementById('expense-form');
+    const expenseDateInput = document.getElementById('expense-date');
+    
+    
+    const today = new Date().toISOString().split('T')[0];
+    expenseDateInput.value = today;
+    
+    
+    addExpenseBtn.addEventListener('click', () => {
+        openExpenseModal();
+    });
+    
+    
+    closeExpenseModalBtn.addEventListener('click', () => {
+        closeExpenseModal();
+    });
+    
+    cancelExpenseBtn.addEventListener('click', () => {
+        closeExpenseModal();
+    });
+    
+    
+    expenseModal.addEventListener('click', (e) => {
+        if (e.target === expenseModal) {
+            closeExpenseModal();
+        }
+    });
+    
+    
+    expenseForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveExpense();
+    });
+}
+
+function openExpenseModal(expenseId = null) {
+    const expenseModal = document.getElementById('expense-modal');
+    const modalTitle = document.getElementById('expense-modal-title');
+    const form = document.getElementById('expense-form');
+    
+    clearFieldErrors(); // Clear any previous errors
+    editingExpenseId = expenseId;
+    
+    if (expenseId) {
+        
+        modalTitle.textContent = 'Edit Expense';
+        const expense = expenses.find(e => e.id === expenseId);
+        if (expense) {
+            fillExpenseForm(expense);
+        }
+    } else {
+        
+        modalTitle.textContent = 'Add Expense';
+        form.reset();
+        
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('expense-date').value = today;
+        
+        document.querySelectorAll('input[name="participants"]').forEach(cb => {
+            cb.checked = true;
+        });
+    }
+    
+    expenseModal.classList.add('active');
+}
+
+function closeExpenseModal() {
+    const expenseModal = document.getElementById('expense-modal');
+    expenseModal.classList.remove('active');
+    editingExpenseId = null;
+    document.getElementById('expense-form').reset();
+}
+
+function fillExpenseForm(expense) {
+    document.getElementById('expense-description').value = expense.description;
+    document.getElementById('expense-amount').value = expense.amount;
+    document.getElementById('expense-payer').value = expense.payer;
+    document.getElementById('expense-date').value = expense.date;
+    document.getElementById('expense-status').value = expense.status;
+    
+    
+    document.querySelectorAll('input[name="participants"]').forEach(cb => {
+        cb.checked = expense.participants.includes(cb.value);
+    });
+}
+
+function saveExpense() {
+    const description = document.getElementById('expense-description').value.trim();
+    const amount = parseFloat(document.getElementById('expense-amount').value);
+    const payer = document.getElementById('expense-payer').value;
+    const date = document.getElementById('expense-date').value;
+    const status = document.getElementById('expense-status').value;
+    
+    
+    const participants = [];
+    document.querySelectorAll('input[name="participants"]:checked').forEach(cb => {
+        participants.push(cb.value);
+    });
+    
+    
+    // Enhanced validation
+    if (!description || !description.trim()) {
+        showFieldError('expense-description', 'Description is required');
+        showToast('Please enter an expense description');
+        return;
+    }
+    
+    if (description.length > 200) {
+        showFieldError('expense-description', 'Description must be 200 characters or less');
+        showToast('Description is too long (max 200 characters)');
+        return;
+    }
+    
+    if (!amount || amount <= 0) {
+        showFieldError('expense-amount', 'Amount must be greater than 0');
+        showToast('Please enter a valid amount greater than 0');
+        return;
+    }
+    
+    if (amount > 100000) {
+        if (!confirm(`Amount of $${amount.toFixed(2)} seems unusually high. Continue?`)) {
+            return;
+        }
+    }
+    
+    if (!payer) {
+        showFieldError('expense-payer', 'Please select who paid');
+        showToast('Please select who paid for this expense');
+        return;
+    }
+    
+    if (!date) {
+        showFieldError('expense-date', 'Date is required');
+        showToast('Please select a date');
+        return;
+    }
+    
+    if (participants.length === 0) {
+        showToast('Please select at least one participant');
+        return;
+    }
+    
+    clearFieldErrors();
+    
+    if (editingExpenseId) {
+        
+        const expenseIndex = expenses.findIndex(e => e.id === editingExpenseId);
+        if (expenseIndex !== -1) {
+            expenses[expenseIndex] = {
+                ...expenses[expenseIndex],
+                description,
+                amount,
+                payer,
+                participants,
+                date,
+                status
+            };
+            showToast('Expense updated successfully!');
+        }
+    } else {
+        
+        const newExpense = {
+            id: expenses.length > 0 ? Math.max(...expenses.map(e => e.id)) + 1 : 1,
+            description,
+            amount,
+            payer,
+            participants,
+            date,
+            status
+        };
+        expenses.push(newExpense);
+        showToast('Expense added successfully!');
+    }
+    
+    
+    saveExpenses();
+    
+    
+    renderExpensesPage();
+    updateBalanceSummary();
+    renderQuickStats();
+    
+    
+    closeExpenseModal();
+}
+
+function deleteExpense(expenseId) {
+    if (confirm('Are you sure you want to delete this expense?')) {
+        expenses = expenses.filter(e => e.id !== expenseId);
+        saveExpenses();
+        renderExpensesPage();
+        updateBalanceSummary();
+        renderQuickStats();
+        showToast('Expense deleted successfully!');
+    }
+}
+
+function calculateBalances() {
+    let youOwe = 0;
+    let youAreOwed = 0;
+    
+    expenses.forEach(expense => {
+        
+        if (expense.status !== 'Pending') return;
+        
+        const shareAmount = expense.amount / expense.participants.length;
+        
+        
+        if (expense.participants.includes(currentUser) && expense.payer !== currentUser) {
+            youOwe += shareAmount;
+        }
+        
+        
+        if (expense.payer === currentUser) {
+            const othersCount = expense.participants.filter(p => p !== currentUser).length;
+            youAreOwed += shareAmount * othersCount;
+        }
+    });
+    
+    return { youOwe, youAreOwed };
+}
+
+function updateBalanceSummary() {
+    const balances = calculateBalances();
+    
+    const youOweElement = document.querySelector('.balance-card.owe .balance-amount');
+    const youAreOwedElement = document.querySelector('.balance-card.owed .balance-amount');
+    
+    if (youOweElement) {
+        youOweElement.textContent = `$${balances.youOwe.toFixed(2)}`;
+    }
+    
+    if (youAreOwedElement) {
+        youAreOwedElement.textContent = `$${balances.youAreOwed.toFixed(2)}`;
+    }
+    
+    // Add net balance display
+    const netBalance = balances.youAreOwed - balances.youOwe;
+    let netBalanceElement = document.querySelector('.net-balance');
+    
+    if (!netBalanceElement && document.querySelector('.balance-summary')) {
+        const balanceSummary = document.querySelector('.balance-summary');
+        netBalanceElement = document.createElement('div');
+        netBalanceElement.className = 'net-balance card';
+        netBalanceElement.style.gridColumn = '1 / -1';
+        netBalanceElement.style.marginTop = 'var(--spacing-md)';
+        balanceSummary.appendChild(netBalanceElement);
+    }
+    
+    if (netBalanceElement) {
+        const netClass = netBalance >= 0 ? 'positive' : 'negative';
+        const netSign = netBalance >= 0 ? '+' : '';
+        netBalanceElement.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">Net Balance</p>
+                    <p class="net-amount ${netClass}" style="font-size: 1.5rem; font-weight: 700; margin: 0;">
+                        ${netSign}$${Math.abs(netBalance).toFixed(2)}
+                    </p>
+                </div>
+                <i class="fas fa-${netBalance >= 0 ? 'arrow-up' : 'arrow-down'}" 
+                   style="font-size: 1.5rem; color: ${netBalance >= 0 ? 'var(--status-done)' : 'var(--status-overdue)'};"></i>
+            </div>
+        `;
+    }
+}
+
+function renderExpensesPage() {
+    const expenseListContainer = document.getElementById('expense-list-container');
+    if (!expenseListContainer) return;
+    
+    // Check if there's an active search
+    const searchInput = document.getElementById('expense-search-input');
+    if (searchInput && searchInput.value.trim()) {
+        filterExpensesBySearch(searchInput.value);
+        updateBalanceSummary();
+        return;
+    }
+    
+    let expensesHTML = '';
+    
+    
+    const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    sortedExpenses.forEach(expense => {
+        const payer = roommates.find(r => r.name === expense.payer) || { name: expense.payer, initials: expense.payer.substring(0, 2).toUpperCase() };
+        
+        expensesHTML += `
+            <div class="expense-card" data-expense-id="${expense.id}">
+                <div class="expense-header">
+                    <div>
+                        <h4 class="expense-description">${expense.description}</h4>
+                        <p class="expense-details">Paid by ${payer.name} • Split between ${expense.participants.length} ${expense.participants.length === 1 ? 'person' : 'people'}</p>
+                    </div>
+                    <p class="expense-amount">$${expense.amount.toFixed(2)}</p>
+                </div>
+                <div class="expense-footer">
+                    <div>
+                        <span class="expense-date">${formatDateDisplay(expense.date)}</span>
+                        <span class="pill ${expense.status.toLowerCase()}">${expense.status}</span>
+                    </div>
+                    <div class="expense-actions">
+                        <i class="fas fa-edit" onclick="openExpenseModal(${expense.id})" title="Edit expense"></i>
+                        <i class="fas fa-trash" onclick="deleteExpense(${expense.id})" title="Delete expense"></i>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    if (sortedExpenses.length === 0) {
+        expensesHTML = `
+            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+                <i class="fas fa-receipt" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--text-secondary); margin-bottom: 0.5rem;">No expenses yet</h3>
+                <p style="color: var(--text-muted);">Click the "Add Expense" button to get started</p>
+            </div>
+        `;
+    }
+    
+    expenseListContainer.innerHTML = expensesHTML;
+    updateBalanceSummary();
+}
+
+function formatDateDisplay(dateString) {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    
+    if (date.toDateString() === today.toDateString()) {
+        return 'Today';
+    }
+    
+    
+    if (date.toDateString() === yesterday.toDateString()) {
+        return 'Yesterday';
+    }
+    
+    
+    const options = { month: 'short', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
+
+
+function setupChats() {
+    
+    const newChatBtn = document.getElementById('new-chat-btn');
+    if (newChatBtn) {
+        newChatBtn.addEventListener('click', openNewChatModal);
+    }
+    
+    
+    setupNewChatModal();
+}
+
+function renderChatsPage() {
+    const conversationListContainer = document.getElementById('conversation-list-container');
+    if (!conversationListContainer) return;
+    
+    let conversationsHTML = '';
+    
+    conversations.forEach(conv => {
+        const isMuted = chatSettings[conv.id]?.muted || false;
+        const muteIcon = isMuted ? '<i class="fas fa-bell-slash" style="color: var(--text-muted); font-size: 0.8rem; margin-left: 0.25rem;"></i>' : '';
+        const unreadBadge = conv.unread > 0 && !isMuted ? `<span class="unread-badge">${conv.unread}</span>` : '';
+        
+        conversationsHTML += `
+            <div class="conversation-card" data-conversation-id="${conv.id}">
+                <div class="conversation-avatar">
+                    <i class="fas ${conv.icon}"></i>
+                </div>
+                <div class="conversation-content">
+                    <div class="conversation-header">
+                        <span class="conversation-name">${conv.name}${muteIcon}</span>
+                        <span class="conversation-time">${conv.time}</span>
+                    </div>
+                    <p class="conversation-preview">${conv.lastMessage}</p>
+                </div>
+                ${unreadBadge}
+            </div>
+        `;
+    });
+    
+    conversationListContainer.innerHTML = conversationsHTML;
+    
+    
+    document.querySelectorAll('.conversation-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const convId = parseInt(card.dataset.conversationId);
+            
+            if (window.innerWidth >= 1024) {
+                
+                openChatDesktop(convId);
+            } else {
+                
+                openChat(convId);
+            }
+        });
+    });
+    
+    
+    const backBtn = document.getElementById('back-to-chats');
+    if (backBtn) {
+        backBtn.addEventListener('click', closeChat);
+    }
+}
+
+function openChatDesktop(conversationId) {
+    currentConversation = conversationId;
+    const conversation = conversations.find(c => c.id === conversationId);
+    const chatPreview = document.getElementById('chat-preview-desktop');
+    const chatEmptyState = chatPreview.querySelector('.chat-empty-state');
+    const chatContent = document.getElementById('chat-preview-content');
+    const chatTitle = document.getElementById('chat-title-desktop');
+    const messagesContainer = document.getElementById('messages-container-desktop');
+    
+    
+    chatEmptyState.style.display = 'none';
+    chatContent.style.display = 'flex';
+    
+    
+    const isMuted = chatSettings[conversationId]?.muted || false;
+    const muteIcon = isMuted ? ' <i class="fas fa-bell-slash" style="color: var(--text-muted); font-size: 0.9rem;"></i>' : '';
+    chatTitle.innerHTML = conversation.name + muteIcon;
+    
+    
+    renderMessages(conversationId, messagesContainer);
+    
+    
+    setupMessageInput('desktop');
+    
+    
+    setupChatSettings('desktop');
+    
+    
+    document.querySelectorAll('.conversation-card').forEach(card => {
+        if (parseInt(card.dataset.conversationId) === conversationId) {
+            card.classList.add('active');
+        } else {
+            card.classList.remove('active');
+        }
+    });
+}
+
+function openChat(conversationId) {
+    currentConversation = conversationId;
+    const conversation = conversations.find(c => c.id === conversationId);
+    const chatView = document.getElementById('chat-view');
+    const chatTitle = document.getElementById('chat-title');
+    const messagesContainer = document.getElementById('messages-container');
+    
+    
+    const isMuted = chatSettings[conversationId]?.muted || false;
+    const muteIcon = isMuted ? ' <i class="fas fa-bell-slash" style="color: var(--text-muted); font-size: 0.9rem;"></i>' : '';
+    chatTitle.innerHTML = conversation.name + muteIcon;
+    
+    
+    renderMessages(conversationId, messagesContainer);
+    
+    
+    chatView.style.display = 'flex';
+    
+    
+    setupMessageInput('mobile');
+    
+    
+    setupChatSettings('mobile');
+}
+
+function renderMessages(conversationId, container) {
+    const chatMessages = messages[conversationId] || [];
+    let messagesHTML = '';
+    let lastSender = null;
+    
+    chatMessages.forEach((msg, index) => {
+        const sender = roommates.find(r => r.id === msg.sender);
+        const isOwn = msg.own;
+        const ownClass = isOwn ? 'own' : '';
+        
+        // Group messages from same sender
+        const showAvatar = !isOwn && (lastSender !== msg.sender || index === 0);
+        const showSender = !isOwn && (lastSender !== msg.sender || index === 0);
+        const addSpacing = lastSender !== msg.sender && index > 0;
+        
+        messagesHTML += `
+            ${addSpacing ? '<div style="margin-top: var(--spacing-md);"></div>' : ''}
+            <div class="message ${ownClass}" style="animation-delay: ${index * 0.05}s;">
+                ${showAvatar ? `<div class="message-avatar" style="background: ${sender ? sender.color : 'var(--accent-primary)'};">
+                    ${sender ? sender.initials : 'DG'}
+                </div>` : '<div style="width: 28px; flex-shrink: 0;"></div>'}
+                <div class="message-bubble">
+                    ${showSender ? `<p class="message-sender">${sender ? sender.name : 'Unknown'}</p>` : ''}
+                    <p class="message-text">${msg.text}</p>
+                    <p class="message-time">${msg.time}</p>
+                </div>
+            </div>
+        `;
+        
+        lastSender = msg.sender;
+    });
+    
+    container.innerHTML = messagesHTML;
+    
+    // Smooth scroll to bottom
+    setTimeout(() => {
+        container.scrollTo({
+            top: container.scrollHeight,
+            behavior: 'smooth'
+        });
+    }, 100);
+}
+
+function closeChat() {
+    const chatView = document.getElementById('chat-view');
+    chatView.style.display = 'none';
+    currentConversation = null;
+}
+
+
+function setupMessageInput(context) {
+    const inputId = context === 'desktop' ? 'message-input-desktop' : 'message-input-mobile';
+    const sendBtnId = context === 'desktop' ? 'send-message-btn-desktop' : 'send-message-btn-mobile';
+    
+    const messageInput = document.getElementById(inputId);
+    const sendBtn = document.getElementById(sendBtnId);
+    
+    if (!messageInput || !sendBtn) return;
+    
+    
+    const newMessageInput = messageInput.cloneNode(true);
+    const newSendBtn = sendBtn.cloneNode(true);
+    messageInput.parentNode.replaceChild(newMessageInput, messageInput);
+    sendBtn.parentNode.replaceChild(newSendBtn, sendBtn);
+    
+    
+    newSendBtn.addEventListener('click', () => sendMessage(context));
+    newMessageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage(context);
+        }
+    });
+}
+
+function sendMessage(context) {
+    if (!currentConversation) return;
+    
+    const inputId = context === 'desktop' ? 'message-input-desktop' : 'message-input-mobile';
+    const messageInput = document.getElementById(inputId);
+    const messageText = messageInput.value.trim();
+    
+    if (!messageText) return;
+    
+    
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    
+    const newMessage = {
+        id: Date.now(),
+        sender: 1, 
+        text: messageText,
+        time: timeString,
+        own: true
+    };
+    
+    
+    if (!messages[currentConversation]) {
+        messages[currentConversation] = [];
+    }
+    messages[currentConversation].push(newMessage);
+    
+    
+    const conversation = conversations.find(c => c.id === currentConversation);
+    if (conversation) {
+        conversation.lastMessage = `You: ${messageText.substring(0, 30)}${messageText.length > 30 ? '...' : ''}`;
+        conversation.time = 'Just now';
+    }
+    
+    
+    messageInput.value = '';
+    
+    
+    const containerId = context === 'desktop' ? 'messages-container-desktop' : 'messages-container';
+    const container = document.getElementById(containerId);
+    renderMessages(currentConversation, container);
+    
+    
+    renderChatsPage();
+    
+    
+    if (context === 'desktop') {
+        openChatDesktop(currentConversation);
+    }
+    
+    showToast('Message sent!');
+}
+
+
+function setupChatSettings(context) {
+    const settingsBtnId = context === 'desktop' ? 'chat-settings-btn-desktop' : 'chat-settings-btn-mobile';
+    const settingsBtn = document.getElementById(settingsBtnId);
+    
+    if (!settingsBtn) return;
+    
+    
+    const newSettingsBtn = settingsBtn.cloneNode(true);
+    settingsBtn.parentNode.replaceChild(newSettingsBtn, settingsBtn);
+    
+    newSettingsBtn.addEventListener('click', () => openChatSettingsMenu(context));
+}
+
+function openChatSettingsMenu(context) {
+    if (!currentConversation) return;
+    
+    const isMuted = chatSettings[currentConversation]?.muted || false;
+    
+    
+    const dropdown = document.createElement('div');
+    dropdown.className = 'chat-settings-dropdown';
+    dropdown.innerHTML = `
+        <div class="settings-menu-item" data-action="toggle-mute">
+            <i class="fas ${isMuted ? 'fa-bell' : 'fa-bell-slash'}"></i>
+            <span>${isMuted ? 'Unmute Notifications' : 'Mute Notifications'}</span>
+        </div>
+    `;
+    
+    
+    const settingsBtnId = context === 'desktop' ? 'chat-settings-btn-desktop' : 'chat-settings-btn-mobile';
+    const settingsBtn = document.getElementById(settingsBtnId);
+    const rect = settingsBtn.getBoundingClientRect();
+    
+    dropdown.style.position = 'fixed';
+    dropdown.style.top = `${rect.bottom + 5}px`;
+    dropdown.style.right = `${window.innerWidth - rect.right}px`;
+    
+    document.body.appendChild(dropdown);
+    
+    
+    dropdown.querySelector('[data-action="toggle-mute"]').addEventListener('click', () => {
+        toggleMute(currentConversation);
+        document.body.removeChild(dropdown);
+        
+        
+        if (context === 'desktop') {
+            openChatDesktop(currentConversation);
+        } else {
+            openChat(currentConversation);
+        }
+    });
+    
+    
+    setTimeout(() => {
+        document.addEventListener('click', function closeDropdown(e) {
+            if (!dropdown.contains(e.target) && e.target !== settingsBtn) {
+                if (document.body.contains(dropdown)) {
+                    document.body.removeChild(dropdown);
+                }
+                document.removeEventListener('click', closeDropdown);
+            }
+        }, 100);
+    });
+}
+
+function toggleMute(conversationId) {
+    if (!chatSettings[conversationId]) {
+        chatSettings[conversationId] = {};
+    }
+    
+    const wasMuted = chatSettings[conversationId].muted || false;
+    chatSettings[conversationId].muted = !wasMuted;
+    
+    const conversation = conversations.find(c => c.id === conversationId);
+    const action = chatSettings[conversationId].muted ? 'muted' : 'unmuted';
+    
+    showToast(`${conversation.name} ${action}`);
+    
+    
+    renderChatsPage();
+    
+    
+    if (currentConversation === conversationId) {
+        if (window.innerWidth >= 1024) {
+            openChatDesktop(conversationId);
+        }
+    }
+}
+
+
+function setupNewChatModal() {
+    const newChatModal = document.getElementById('new-chat-modal');
+    const closeBtn = document.getElementById('close-new-chat-modal');
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeNewChatModal);
+    }
+    
+    
+    if (newChatModal) {
+        newChatModal.addEventListener('click', (e) => {
+            if (e.target === newChatModal) {
+                closeNewChatModal();
+            }
+        });
+    }
+    
+    
+    const directChatBtn = document.getElementById('start-direct-chat-btn');
+    const groupChatBtn = document.getElementById('start-group-chat-btn');
+    
+    if (directChatBtn) {
+        directChatBtn.addEventListener('click', showDirectChatForm);
+    }
+    
+    if (groupChatBtn) {
+        groupChatBtn.addEventListener('click', showGroupChatForm);
+    }
+}
+
+function openNewChatModal() {
+    const modal = document.getElementById('new-chat-modal');
+    const choiceView = document.getElementById('new-chat-choice');
+    const directView = document.getElementById('new-chat-direct');
+    const groupView = document.getElementById('new-chat-group');
+    
+    
+    choiceView.style.display = 'block';
+    directView.style.display = 'none';
+    groupView.style.display = 'none';
+    
+    modal.classList.add('active');
+}
+
+function closeNewChatModal() {
+    const modal = document.getElementById('new-chat-modal');
+    modal.classList.remove('active');
+}
+
+function showDirectChatForm() {
+    const choiceView = document.getElementById('new-chat-choice');
+    const directView = document.getElementById('new-chat-direct');
+    
+    choiceView.style.display = 'none';
+    directView.style.display = 'block';
+    
+    
+    const roommatesList = document.getElementById('roommates-list-direct');
+    roommatesList.innerHTML = '';
+    
+    roommates.forEach(roommate => {
+        if (roommate.id === 1) return; 
+        
+        
+        const existingChat = conversations.find(c => 
+            c.type === 'direct' && 
+            c.participants.includes(1) && 
+            c.participants.includes(roommate.id)
+        );
+        
+        const item = document.createElement('div');
+        item.className = 'roommate-select-item';
+        item.innerHTML = `
+            <div class="avatar small" style="background: ${roommate.color};">${roommate.initials}</div>
+            <span>${roommate.name}</span>
+            ${existingChat ? '<span style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto;">Chat exists</span>' : ''}
+        `;
+        
+        if (!existingChat) {
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', () => createDirectChat(roommate.id));
+        } else {
+            item.style.opacity = '0.6';
+            item.style.cursor = 'default';
+        }
+        
+        roommatesList.appendChild(item);
+    });
+}
+
+function showGroupChatForm() {
+    const choiceView = document.getElementById('new-chat-choice');
+    const groupView = document.getElementById('new-chat-group');
+    
+    choiceView.style.display = 'none';
+    groupView.style.display = 'block';
+    
+    
+    const roommatesList = document.getElementById('roommates-list-group');
+    roommatesList.innerHTML = '';
+    
+    roommates.forEach(roommate => {
+        if (roommate.id === 1) return; 
+        
+        
+        const item = document.createElement('div');
+        item.className = 'modal-assignee-item';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'group-participants';
+        checkbox.value = roommate.id;
+        checkbox.id = `group-roommate-${roommate.id}`;
+        
+        const label = document.createElement('label');
+        label.htmlFor = `group-roommate-${roommate.id}`;
+        label.textContent = roommate.name;
+        
+        item.appendChild(checkbox);
+        item.appendChild(label);
+        
+        roommatesList.appendChild(item);
+    });
+    
+    
+    const form = document.getElementById('group-chat-form');
+    const newForm = form.cloneNode(true);
+    form.parentNode.replaceChild(newForm, form);
+    
+    newForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        createGroupChat();
+    });
+}
+
+function createDirectChat(roommateId) {
+    const roommate = roommates.find(r => r.id === roommateId);
+    if (!roommate) return;
+    
+    
+    const newConvId = conversations.length > 0 ? Math.max(...conversations.map(c => c.id)) + 1 : 1;
+    const newConversation = {
+        id: newConvId,
+        name: roommate.name,
+        icon: 'fa-user',
+        lastMessage: 'No messages yet',
+        time: 'Just now',
+        unread: 0,
+        participants: [1, roommateId],
+        type: 'direct'
+    };
+    
+    conversations.unshift(newConversation);
+    messages[newConvId] = [];
+    
+    closeNewChatModal();
+    renderChatsPage();
+    
+    
+    if (window.innerWidth >= 1024) {
+        openChatDesktop(newConvId);
+    } else {
+        openChat(newConvId);
+    }
+    
+    showToast(`Chat with ${roommate.name} created!`);
+}
+
+function createGroupChat() {
+    const groupName = document.getElementById('group-chat-name').value.trim();
+    const selectedParticipants = Array.from(document.querySelectorAll('input[name="group-participants"]:checked'))
+        .map(cb => parseInt(cb.value));
+    
+    if (!groupName) {
+        showToast('Please enter a group name');
+        return;
+    }
+    
+    if (selectedParticipants.length === 0) {
+        showToast('Please select at least one roommate');
+        return;
+    }
+    
+    
+    selectedParticipants.unshift(1);
+    
+    
+    const newConvId = conversations.length > 0 ? Math.max(...conversations.map(c => c.id)) + 1 : 1;
+    const newConversation = {
+        id: newConvId,
+        name: groupName,
+        icon: 'fa-users',
+        lastMessage: 'No messages yet',
+        time: 'Just now',
+        unread: 0,
+        participants: selectedParticipants,
+        type: 'group'
+    };
+    
+    conversations.unshift(newConversation);
+    messages[newConvId] = [];
+    
+    closeNewChatModal();
+    renderChatsPage();
+    
+    
+    if (window.innerWidth >= 1024) {
+        openChatDesktop(newConvId);
+    } else {
+        openChat(newConvId);
+    }
+    
+    showToast(`Group "${groupName}" created!`);
+}
+
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    
+    if (!toast || !toastMessage) return;
+    
+    toastMessage.textContent = message;
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(-50%) translateY(100px) scale(0.9)';
+    toast.classList.add('show');
+    
+    // Trigger animation
+    setTimeout(() => {
+        toast.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) translateY(0) scale(1)';
+    }, 10);
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(100px) scale(0.9)';
+    setTimeout(() => {
+        toast.classList.remove('show');
+        }, 400);
+    }, 3000);
+}
+
+function showFieldError(fieldId, message) {
+    const field = document.getElementById(fieldId);
+    if (field) {
+        field.style.borderColor = 'var(--status-overdue)';
+        field.style.boxShadow = '0 0 0 3px rgba(255, 77, 77, 0.15)';
+        
+        // Remove existing error message
+        const existingError = field.parentElement.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Add error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.style.color = 'var(--status-overdue)';
+        errorDiv.style.fontSize = '0.8rem';
+        errorDiv.style.marginTop = '0.25rem';
+        errorDiv.textContent = message;
+        field.parentElement.appendChild(errorDiv);
+    }
+}
+
+function clearFieldErrors() {
+    document.querySelectorAll('.field-error').forEach(error => error.remove());
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+        field.style.borderColor = '';
+        field.style.boxShadow = '';
+    });
+}
+
+
+function getRoommateById(id) {
+    return roommates.find(r => r.id === id);
+}
+
+function formatDate(dateString) {
+    
+    return dateString;
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+});
+
+function updateTaskCountBadges() {
+    const pendingTasks = tasks.filter(t => 
+        t.status !== 'completed' && t.assignees.includes(currentUserId)
+    ).length;
+    
+    const overdueTasks = tasks.filter(t => {
+        if (t.status === 'completed' || !t.assignees.includes(currentUserId)) return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const taskDate = new Date(t.dueDate);
+        taskDate.setHours(0, 0, 0, 0);
+        return taskDate < today;
+    }).length;
+    
+    // Update or create badge on Tasks nav button
+    const tasksNavBtn = document.querySelector('.nav-btn[data-page="tasks"]');
+    if (tasksNavBtn) {
+        let badge = tasksNavBtn.querySelector('.nav-badge');
+        if (pendingTasks > 0 && !badge) {
+            badge = document.createElement('span');
+            badge.className = 'nav-badge';
+            tasksNavBtn.appendChild(badge);
+        }
+        if (badge) {
+            if (pendingTasks > 0) {
+                badge.textContent = pendingTasks > 99 ? '99+' : pendingTasks;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    }
+}
+
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Don't trigger if user is typing in an input/textarea
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            // Allow Esc to close modals even when typing
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                }
+            }
+            return;
+        }
+        
+        // Ctrl/Cmd + N: New Task
+        if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+            e.preventDefault();
+            if (currentPage === 'tasks') {
+                openTaskModal();
+            } else if (currentPage === 'expenses') {
+                openExpenseModal();
+            }
+        }
+        
+        // Ctrl/Cmd + K: Search (if on tasks or expenses page)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.focus();
+            }
+        }
+        
+        // Esc: Close modals
+        if (e.key === 'Escape') {
+            const activeModal = document.querySelector('.modal.active');
+            if (activeModal) {
+                activeModal.classList.remove('active');
+            }
+        }
+    });
+}
+
+function setupSearchFunctionality() {
+    // Add search input to tasks page
+    const tasksPage = document.getElementById('tasks-page');
+    if (tasksPage) {
+        const header = tasksPage.querySelector('.page-header');
+        if (header && !header.querySelector('.search-input')) {
+            const searchHTML = `
+                <div class="search-bar" style="margin-top: var(--spacing-md);">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" id="task-search-input" 
+                           placeholder="Search tasks..." 
+                           style="width: 100%; padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 2.5rem;
+                                  border: 1px solid var(--border-soft); border-radius: var(--radius-md);
+                                  font-size: 0.9rem; background: var(--bg-elevated);
+                                  box-shadow: var(--shadow-inset); color: var(--text-primary);">
+                </div>
+            `;
+            header.insertAdjacentHTML('beforeend', searchHTML);
+            
+            const searchInput = document.getElementById('task-search-input');
+            if (searchInput) {
+                let searchTimeout;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        filterTasksBySearch(e.target.value);
+                    }, 300);
+                });
+            }
+        }
+    }
+    
+    // Add search to expenses page
+    const expensesPage = document.getElementById('expenses-page');
+    if (expensesPage) {
+        const header = expensesPage.querySelector('.page-header');
+        if (header && !header.querySelector('#expense-search-input')) {
+            const searchHTML = `
+                <div class="search-bar" style="margin-top: var(--spacing-md);">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" id="expense-search-input" 
+                           placeholder="Search expenses..." 
+                           style="width: 100%; padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 2.5rem;
+                                  border: 1px solid var(--border-soft); border-radius: var(--radius-md);
+                                  font-size: 0.9rem; background: var(--bg-elevated);
+                                  box-shadow: var(--shadow-inset); color: var(--text-primary);">
+                </div>
+            `;
+            header.insertAdjacentHTML('beforeend', searchHTML);
+            
+            const searchInput = document.getElementById('expense-search-input');
+            if (searchInput) {
+                let searchTimeout;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        filterExpensesBySearch(e.target.value);
+                    }, 300);
+                });
+            }
+        }
+    }
+}
+
+function filterTasksBySearch(query) {
+    if (!query.trim()) {
+        renderTasksPage();
+        return;
+    }
+    
+    const searchLower = query.toLowerCase();
+    const filtered = tasks.filter(task => {
+        return task.title.toLowerCase().includes(searchLower) ||
+               (task.description && task.description.toLowerCase().includes(searchLower)) ||
+               task.assignees.some(id => {
+                   const roommate = roommates.find(r => r.id === id);
+                   return roommate && roommate.name.toLowerCase().includes(searchLower);
+               });
+    });
+    
+    renderFilteredTasks(filtered);
+}
+
+function filterExpensesBySearch(query) {
+    if (!query.trim()) {
+        renderExpensesPage();
+        return;
+    }
+    
+    const searchLower = query.toLowerCase();
+    const filtered = expenses.filter(expense => {
+        return expense.description.toLowerCase().includes(searchLower) ||
+               expense.payer.toLowerCase().includes(searchLower) ||
+               expense.participants.some(p => p.toLowerCase().includes(searchLower));
+    });
+    
+    renderFilteredExpenses(filtered);
+}
+
+function renderFilteredTasks(filteredTasks) {
+    const taskListContainer = document.getElementById('task-list-container');
+    if (!taskListContainer) return;
+    
+    let tasksHTML = '';
+    
+    if (filteredTasks.length === 0) {
+        tasksHTML = `
+            <div class="card" style="text-align: center; padding: 3rem 1.5rem; grid-column: 1 / -1;">
+                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--text-secondary); margin-bottom: 0.5rem;">No tasks found</h3>
+                <p style="color: var(--text-muted);">Try adjusting your search terms</p>
+            </div>
+        `;
+    } else {
+        filteredTasks.forEach(task => {
+            // Use same rendering logic as renderTasksPage
+            let assigneesHTML = '';
+            task.assignees.forEach(assigneeId => {
+                const assignee = roommates.find(r => r.id === assigneeId);
+                assigneesHTML += `
+                    <div class="task-assignee">
+                        <div class="avatar small" style="background: ${assignee.color};">${assignee.initials}</div>
+                        <span>${assignee.name}</span>
+                    </div>
+                `;
+            });
+            
+            const recurringIcon = task.recurrence && task.recurrence !== 'one-time' ? '<i class="fas fa-rotate" style="color: var(--accent-active); font-size: 0.9rem;"></i>' : '';
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const taskDate = new Date(task.dueDate);
+            taskDate.setHours(0, 0, 0, 0);
+            
+            let dateLabel = '';
+            let pillClass = '';
+            
+            if (task.status === 'completed') {
+                dateLabel = 'Completed';
+                pillClass = 'done';
+            } else if (taskDate < today) {
+                dateLabel = 'Overdue';
+                pillClass = 'overdue';
+            } else if (taskDate.getTime() === today.getTime()) {
+                dateLabel = 'Today';
+                pillClass = 'today';
+            } else {
+                const diffTime = taskDate - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if (diffDays === 1) {
+                    dateLabel = 'Tomorrow';
+                    pillClass = 'pending';
+                } else if (diffDays <= 7) {
+                    dateLabel = `In ${diffDays} days`;
+                    pillClass = 'pending';
+                } else {
+                    dateLabel = formatDateDisplay(task.dueDate);
+                    pillClass = 'pending';
+                }
+            }
+            
+            const completedClass = task.status === 'completed' ? 'task-completed' : '';
+            const titleStyle = task.status === 'completed' ? 'style="text-decoration: line-through; opacity: 0.7;"' : '';
+            const descriptionHTML = task.description ? `<p class="task-description">${task.description}</p>` : '';
+            
+            let urgencyBadge = '';
+            if (task.urgency) {
+                const urgencyConfig = {
+                    'high': { label: 'High', class: 'urgency-high' },
+                    'moderate': { label: 'Moderate', class: 'urgency-moderate' },
+                    'low': { label: 'Low', class: 'urgency-low' }
+                };
+                const config = urgencyConfig[task.urgency.toLowerCase()];
+                if (config) {
+                    urgencyBadge = `<span class="pill ${config.class}">${config.label}</span>`;
+                }
+            }
+            
+            tasksHTML += `
+                <div class="task-card ${completedClass}" data-task-id="${task.id}">
+                    <div class="task-header">
+                        <div class="task-main">
+                            <h4 class="task-card-title" ${titleStyle}>${task.title}</h4>
+                            ${descriptionHTML}
+                            ${assigneesHTML}
+                        </div>
+                        ${recurringIcon}
+                    </div>
+                    <div class="task-footer">
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="pill ${pillClass}">${dateLabel}</span>
+                            ${urgencyBadge}
+                        </div>
+                        <div class="task-actions">
+                            <i class="fas ${task.status === 'completed' ? 'fa-rotate-left' : 'fa-check'}" 
+                               onclick="toggleTaskCompleted(${task.id})" 
+                               title="${task.status === 'completed' ? 'Mark as pending' : 'Mark as completed'}"
+                               style="cursor: pointer;"></i>
+                            <i class="fas fa-edit" onclick="openTaskModal(${task.id})" title="Edit task" style="cursor: pointer;"></i>
+                            <i class="fas fa-trash" onclick="deleteTask(${task.id})" title="Delete task" style="cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    taskListContainer.innerHTML = tasksHTML;
+}
+
+function renderFilteredExpenses(filteredExpenses) {
+    const expenseListContainer = document.getElementById('expense-list-container');
+    if (!expenseListContainer) return;
+    
+    let expensesHTML = '';
+    
+    if (filteredExpenses.length === 0) {
+        expensesHTML = `
+            <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+                <i class="fas fa-search" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--text-secondary); margin-bottom: 0.5rem;">No expenses found</h3>
+                <p style="color: var(--text-muted);">Try adjusting your search terms</p>
+            </div>
+        `;
+    } else {
+        filteredExpenses.forEach(expense => {
+            const payer = roommates.find(r => r.name === expense.payer) || { name: expense.payer, initials: expense.payer.substring(0, 2).toUpperCase() };
+            
+            expensesHTML += `
+                <div class="expense-card" data-expense-id="${expense.id}">
+                    <div class="expense-header">
+                        <div>
+                            <h4 class="expense-description">${expense.description}</h4>
+                            <p class="expense-details">Paid by ${payer.name} • Split between ${expense.participants.length} ${expense.participants.length === 1 ? 'person' : 'people'}</p>
+                        </div>
+                        <p class="expense-amount">$${expense.amount.toFixed(2)}</p>
+                    </div>
+                    <div class="expense-footer">
+                        <div>
+                            <span class="expense-date">${formatDateDisplay(expense.date)}</span>
+                            <span class="pill ${expense.status.toLowerCase()}">${expense.status}</span>
+                        </div>
+                        <div class="expense-actions">
+                            <i class="fas fa-edit" onclick="openExpenseModal(${expense.id})" title="Edit expense"></i>
+                            <i class="fas fa-trash" onclick="deleteExpense(${expense.id})" title="Delete expense"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    expenseListContainer.innerHTML = expensesHTML;
+}
+
+console.log('✅ Roommate Task Organizer loaded successfully!');
